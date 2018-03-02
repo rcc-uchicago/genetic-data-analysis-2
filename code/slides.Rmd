@@ -12,3 +12,59 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
                       results = "hide", fig.show = "hide", message = FALSE,
 		      warning = FALSE)
 ```
+
+Aims of workshop
+================
+
+*List aims here.*
+
+Our research task
+=================
+
+*Describe research task here.*
+
+It's your choice
+================
+
+Your may choose to...
+
++ Work through the examples on the RCC cluster.
+
++ Work through the examples on your laptop.
+
++ Pair up with your neighbour.
+
++ Follow what I do on the projector.
+
+*However*,
+
+1. A few of the examples will only run on the RCC cluster.
+
+2. The examples may not produce the exact same result on your laptop.
+
+Software tools we will use today
+================================
+
+1. PLINK
+
+2. R
+
+3. R packages ...
+
+4. Basic shell commands such as ...
+
+Outline of workshop
+===================
+
+*Add outline here.*
+
+Initial setup (part 1)
+======================
+
++ WiFi
+
++ Power outlets
+
++ YubiKeys
+
++ Pace, questions (e.g., keyboard shortcuts).

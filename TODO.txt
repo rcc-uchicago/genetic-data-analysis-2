@@ -1,3 +1,5 @@
+* Add "outline" slides to slide deck.
+
 * Send email to workshop participants.
 
 * Add people to thank in the Credits section of the README.
