@@ -93,5 +93,50 @@ environment:
 
     + See https://rcc.uchicago.edu/docs/connecting.
     
-2. *Add sinteractive command here.*
+2. *Add screen and sinteractive commands here.*
+
+Initial setup (part 4)
+======================
+
+Download the workshop packet from GitHub.
+
+* URL: https://github.com/rcc-uchicago/genetic-data-analysis-2
+
+If you are using the RCC cluster, you can run these commands to
+download the workshop packet to your home directory:
+
+```{bash download-repo, eval=FALSE}
+cd ~
+git clone https://github.com/rcc-uchicago/
+  genetic-data-analysis-2.git
+```
+
+What's in the workshop packet
+=============================
+
+```
+genetic-data-analysis-2
+  /bin     # All executables are stored here.
+  /code    # Source code used in analyses.
+  /data    # "Raw" and processed data.
+  /docs    # Additional workshop materials.
+  /output  # All results are stored here.
+```
+
+Download data
+=============
+
+* The data folder in the workshop packet already contains some files
+which we will use. However, some files are too large to fit in the git
+repository, so we will have to download them separately.
+
+* Describe the steps here and in subsequent slides to download the
+large data files (files that are too large to fit in the repository).
+
+The data we will use in our analyses
+====================================
+
+In the `data` folder:
+
+*Describe the files included in this folder.*
 
