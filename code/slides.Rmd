@@ -68,3 +68,30 @@ Initial setup (part 1)
 + YubiKeys
 
 + Pace, questions (e.g., keyboard shortcuts).
+
+Initial setup (part 2)
+======================
+
+Download the workshop packet to your laptop.
+
++ URL: https://github.com/rcc-uchicago/genetic-data-analysis-2
+
++ Open **slides.pdf** from the **docs** folder. This is useful for
+viewing and copying the code from the slides.
+
++ We may also look at some of the files in the **code** folder. The
+code can be viewed with your favourite text editor, or browsed
+on GitHub.
+
+Initial setup (part 3)
+======================
+
+If you are using the RCC cluster, set up your cluster computing
+environment:
+
+1. Connect to midway2.
+
+    + See https://rcc.uchicago.edu/docs/connecting.
+    
+2. *Add sinteractive command here.*
+
