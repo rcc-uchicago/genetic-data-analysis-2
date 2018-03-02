@@ -16,7 +16,7 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
 Aims of workshop
 ================
 
-*List aims here.*
+3. 
 
 Our research task
 =================
@@ -49,7 +49,7 @@ Software tools we will use today
 
 2. R
 
-3. R packages ...
+3. R packages `ggplot2` and `cowplot`.
 
 4. Basic shell commands such as ...
 
@@ -143,4 +143,60 @@ In the `data` folder:
 Explore the data
 ================
 
-*Add steps here for exploring the data.*
+First take a quick look the data using command-line tools:
+
+```{bash, eval=FALSE}
+less -S CFW_measures.txt
+wc -l CFW_measures.txt
+less -S CFW_covariates.txt
+wc -l CFW_covariates.txt
+```
+
+Load the phenotype and covariate data, and merge into a single table
+("data frame"):
+
+```{r}
+dat1  <- read.flint.pheno("../data/CFW_measures.txt")
+dat2  <- read.flint.pheno("../data/CFW_covariates.txt")
+pheno <- cbind(dat1,dat2[-1])
+```
+
+Take a quick look at the data:
+
+```{r}
+nrow(pheno)
+ncol(pheno)
+pheno[1:5,1:5]
+```
+
+Select the same 1,934 samples that were used in Nicod et al (2016);
+
+```{r}
+ids   <- read.table("../data/list_of_1934_mice_used_for_analysis.txt",
+                    stringsAsFactors = FALSE)[[1]]
+rows  <- match(ids,pheno$Animal_ID)
+pheno <- pheno[rows,]
+nrow(pheno)
+```
+
+Take a closer look at the tibia length data (units = mm):
+
+```{r}
+summary(pheno$Tibia.Length)
+library(ggplot2)
+library(cowplot) # Optional.
+p1 <- plot.dist(pheno$Tibia.Length)
+print(p1)
+p1 <- p1 + labs(x = "tibia length (mm)",y = "number of mice")
+print(p1)
+```
+
+Examine the relationship between tibia length and body weight:
+
+```{r}
+
+```
+
+*Optional exercise:* Follow these same processing and analysis steps
+to map genetic loci for LDL concentrations in blood (units = mmol/L).
+
