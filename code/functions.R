@@ -4,10 +4,10 @@ read.flint.pheno <- function (file)
   read.table(file,sep = "\t",quote = "",stringsAsFactors = FALSE,
              header = TRUE,check.names = FALSE)
 
-# TO DO: Explain here what this function does, and how to use it.
-plot.dist <- function (x, color = "darkblue")
-  qplot(x = x,fill = "constant",bins = 24,show.legend = FALSE,na.rm = TRUE) +
-    scale_fill_manual(values = color) +
+# Visualize the empirical distribution of x using a histogram. Adjust
+# inputs "bins" and "color" as needed to improve the plot.
+plot.dist <- function (x, bins = 24, color = "darkblue")
+  ggplot(data.frame(x),aes(x)) +
+    geom_histogram(bins = bins,fill = color,na.rm = TRUE) +
     theme(axis.line = element_blank())
-
-
+      
