@@ -16,3 +16,7 @@ NOTES
   recorded for 2,117 CFW mice. This file was downloaded from the same
   source as CFW_measures.txt.
 
+* list_of_1934_mice_used_for_analysis.txt gives the ids of the 1,934
+  mice retained for the genome-wide association analyses in Nicod et
+  al (2016).
+  

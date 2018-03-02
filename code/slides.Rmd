@@ -140,3 +140,7 @@ In the `data` folder:
 
 *Describe the files included in this folder.*
 
+Explore the data
+================
+
+*Add steps here for exploring the data.*
