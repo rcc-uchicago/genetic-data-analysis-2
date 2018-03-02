@@ -1,0 +1,1 @@
+* Add people to thank in the Credits section of the README.
