@@ -55,4 +55,8 @@ These materials were developed by
 [Peter Carbonetto](http://pcarbo.github.io) at the
 [University of Chicago](https://www.uchicago.edu). Thank you to
 [Matthew Stephens](http://stephenslab.uchicago.edu) for his support
-and guidance. 
+and guidance. Also thanks to
+[Jonathan Flint](https://twitter.com/jonathan_flint1), Jerome Nicod
+and the other members of the Flint lab for making the data from the
+[CFW sequencing study](https://wp.cs.ucl.ac.uk/outbredmice) available
+for public use.

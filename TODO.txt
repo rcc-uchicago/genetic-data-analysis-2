@@ -1,3 +1,6 @@
+* Write function to convert each .RData file to a genotype file in the
+  BIMBAM format.
+
 * Add "outline" slides to slide deck.
 
 * Send email to workshop participants.
