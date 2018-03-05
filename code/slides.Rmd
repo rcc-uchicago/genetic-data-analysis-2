@@ -16,7 +16,7 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
 Aims of workshop
 ================
 
-3. 
+*Describe aims here.*
 
 Our research task
 =================
@@ -98,12 +98,12 @@ environment:
 Initial setup (part 4)
 ======================
 
-Download the workshop packet from GitHub.
+If you are using the RCC cluster, also download the workshop packet
+to your home directory on the cluster.
 
 * URL: https://github.com/rcc-uchicago/genetic-data-analysis-2
 
-If you are using the RCC cluster, you can run these commands to
-download the workshop packet to your home directory:
+You can run these commands to download the workshop packet:
 
 ```{bash download-repo, eval=FALSE}
 cd ~
@@ -118,42 +118,83 @@ What's in the workshop packet
 genetic-data-analysis-2
   /bin     # All executables are stored here.
   /code    # Source code used in analyses.
-  /data    # "Raw" and processed data.
+  /data    # Raw and processed data.
   /docs    # Additional workshop materials.
   /output  # All results are stored here.
 ```
 
-Download data
-=============
+Download data (part 1)
+======================
 
-* The data folder in the workshop packet already contains some files
-which we will use. However, some files are too large to fit in the git
-repository, so we will have to download them separately.
+The genotype files are too large to fit in the git repository. So we
+need to download them separately.
 
-* Describe the steps here and in subsequent slides to download the
-large data files (files that are too large to fit in the repository).
++ URL: http://mtweb.cs.ucl.ac.uk/dosages
+
++ Download the files for chromosomes 1 through 19 into the `data`
+  folder.
+
++ You may find it easier to run the bash script provided in the `data`
+  folder:
+
+    ```
+    bash download_genotypes.sh
+    ```
+
+    This script requires `wget`.
+
+Download data (part 2)
+======================
+
+After following these steps, this should be the contents of your
+`data` directory:
+
+```
+$ ls -1
+README
+CFW_covariates.txt
+CFW_measures.txt
+download_genotypes.sh
+chr1.prunedgen.final.maf001.0.98.RData
+chr2.prunedgen.final.maf001.0.98.RData
+...
+chr19.prunedgen.final.maf001.0.98.RData
+```
 
 The data we will use in our analyses
 ====================================
 
 In the `data` folder:
 
-*Describe the files included in this folder.*
++ **CFW_measures.txt:** 200 phenotypes collected from 2,117 CFW mice.
 
-Explore the data
-================
++ **CFW_covariates.txt:** covariate data for 2,117 CFW mice.
+
++ **list_of_1934_mice_used_for_analysis.txt:** ids of the 1,934 mice
+  used in the final analyses of Nicod *et al*, 2016.
+
+See the `README` in the `data` folder for information.
+
+Explore the data from the shell
+===============================
 
 First take a quick look the data using command-line tools:
 
 ```{bash, eval=FALSE}
 less -S CFW_measures.txt
 wc -l CFW_measures.txt
+```
+
+```{bash, eval=FALSE}
 less -S CFW_covariates.txt
 wc -l CFW_covariates.txt
 ```
 
-Load the phenotype and covariate data, and merge into a single table
-("data frame"):
+Explore the data in R
+=====================
+
+Load the phenotype and covariate data, and merge these data into a
+single table ("data frame"):
 
 ```{r}
 dat1  <- read.flint.pheno("../data/CFW_measures.txt")
@@ -194,7 +235,6 @@ print(p1)
 Examine the relationship between tibia length and body weight:
 
 ```{r}
-
 ```
 
 *Optional exercise:* Follow these same processing and analysis steps
