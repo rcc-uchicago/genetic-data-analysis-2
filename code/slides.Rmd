@@ -337,11 +337,39 @@ p3 <- draw.boxplot(pheno$Sex,
 print(p3)
 ```
 
+Verify the phenotype residuals
+==============================
+
+Compute the phenotypes after removing the linear effects of sex and
+body weight:
+
+```{r compute-residuals}
+fit <- lm(Tibia.Length ~ Sex + Weight.Diss,pheno)
+r   <- resid(fit)
+```
+
+Plot the distribution of the residuals:
+
+```{r plot-residuals}
+p4 <- plot.dist(r) + labs(x = "residuals")
+print(p4)
+```
+
+Is the normal a good fit for the residuals? We can verify this more
+rigorously:
+
+```{r check-residuals}
+check.normal.quantiles(r)
+p5 <- draw.qqplot(r)
+print(p5)
+```
+
 Save phenotype data for GEMMA
 =============================
 
-Write the phenotype data to file `pheno.txt` in the format used by
-GEMMA:
+Now that we have explored and verified the phenotype data, we are
+ready to save the data in a format usable by GEMMA. First write the
+phenotype data to `pheno.txt`:
 
 ```{r write-phenotype-data}
 write.table(pheno$Tibia.Length,"../data/pheno.txt",
@@ -365,6 +393,7 @@ Also, a column of ones is needed for the intercept in GEMMA.
 
 Prepare the genotype data for GEMMA
 ===================================
+
 
 Additional slide
 ================
