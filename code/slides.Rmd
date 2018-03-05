@@ -45,7 +45,7 @@ Your may choose to...
 Software tools we will use today
 ================================
 
-1. PLINK
+1. GEMMA
 
 2. R
 
@@ -456,6 +456,39 @@ different orders, which will lead to an incorrect association
 analysis!*
 
 + Why is it easy to make this mistake in a GEMMA analysis?
+
+Install GEMMA
+=============
+
+Download the GEMMA 0.96 to the `bin` folder.
+
++ URL: https://github.com/genetics-statistics/GEMMA/releases
+
+On the RCC cluster, you can run these commands to install the GEMMA
+0.96 Linux binary, and check that it works:
+
+```{bash get-gemma, eval=FALSE}
+cd bin
+wget http://bit.ly/2I67fBV -O gemma.linux.gz
+gunzip gemma.gz
+mv gemma.linux gemma
+chmod 700 gemma
+./gemma
+```
+
+A simple linear-regression association analysis in GEMMA
+========================================================
+
+Now that we have installed GEMMA, and we have prepared the phenotype
+and genotype data in the formats accepted by GEMMA, we are now ready
+to run our first association analysis.
+
+```{bash gemma-lm, eval=FALSE}
+cd data
+../bin/gemma -p pheno.txt -c covariates.txt \
+  -a map.txt -g geno.txt -notsnp -lm \
+  -outdir ../output -o tibia
+```
 
 Additional slide
 ================

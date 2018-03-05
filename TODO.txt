@@ -9,6 +9,7 @@
 
 * Incorporate materials from pcarbo/genetic-data-analysis-rcc-2.
 
-* Test all data processing and analysis steps on midway2.
+* Test all data processing and analysis steps on midway2 (and figure
+  out how much memory is needed to run all the steps on midway2).
 
 * Add slide (or two) summarizing the Nicod et al study.
