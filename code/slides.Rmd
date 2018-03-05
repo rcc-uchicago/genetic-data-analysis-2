@@ -197,8 +197,8 @@ less -S CFW_covariates.txt
 wc -l CFW_covariates.txt
 ```
 
-Explore the data in R (part 1)
-==============================
+Explore the phenotype data in R (part 1)
+========================================
 
 Move to the **code** folder in the git repository. And on the RCC
 cluster, load R:
@@ -227,8 +227,8 @@ Also, before continuing, check your working directory:
 getwd()  # Should be .../code
 ```
 
-Explore the data in R (part 2)
-==============================
+Explore the phenotype data in R (part 2)
+========================================
 
 Load the phenotype and covariate data, and merge these data into a
 single table ("data frame"), dropping the redundant second "id"
@@ -250,8 +250,8 @@ sort(names(pheno))
 pheno[1:5,1:5]
 ```
 
-Explore the data in R (part 3)
-==============================
+Explore the phenotype data in R (part 3)
+========================================
 
 Select the same 1,934 samples that were used in Nicod *et al*
 (2016). First, we load the list of ids:
@@ -270,8 +270,8 @@ pheno <- pheno[rows,]
 nrow(pheno)
 ```
 
-Explore the data in R (part 4)
-==============================
+Explore the phenotype data in R (part 4)
+========================================
 
 Take a closer look at the tibia length data (units = mm):
 
@@ -297,20 +297,46 @@ p1 <- p1 + labs(x = "tibia length (mm)",
 print(p1)
 ```
 
-Explore the data in R (part 5)
-==============================
+Explore the covariate data in R (part 1)
+========================================
 
-Examine the relationship between tibia length and body weight (at
-dissection):
+The authors recommend using body weight as a covariate in the
+association analysis:
+
+```{r summarize-body-weight}
+summary(pheno$Weight.Diss)
+```
+
+Examine the relationship between tibia length and body weight:
 
 ```{r plot-tibia-vs-weight}
-p2 <- draw.scatterplot(pheno$Tibia.Length,pheno$Weight.Diss) +
-  labs(x = "tibia length (mm)",y = "body weight (g)")
+p2 <- draw.scatterplot(pheno$Tibia.Length,
+                       pheno$Weight.Diss) +
+  labs(x = "tibia length (mm)",
+       y = "body weight (g)")
 print(p2)
+```
+
+Explore the covariate data in R (part 2)
+========================================
+
+The authors also recommend using sex as a covariate in the association
+analysis:
+
+```{r summarize-sex}
+pheno <- transform(pheno,Sex = factor(Sex))
+summary(pheno$Sex)
 ```
 
 Examine the relationship between tibia length and sex:
 
-*Optional exercise:* Follow these same processing and analysis steps
-to map genetic loci for LDL concentrations in blood (units = mmol/L).
+```{r plot-tibia-vs-sex}
+# p3 <- draw.box.plot
+```
+
+*Optional exercise:* Draw a violin plot.
+
+*Optional exercise (shown in a separate slide):* Follow these same
+processing and analysis steps to map genetic loci for LDL
+concentrations in blood (units = mmol/L).
 
