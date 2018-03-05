@@ -246,7 +246,7 @@ Take a quick glance at the data:
 ```{r glance-at-pheno-data}
 nrow(pheno)
 ncol(pheno)
-names(pheno)
+sort(names(pheno))
 pheno[1:5,1:5]
 ```
 
@@ -300,10 +300,16 @@ print(p1)
 Explore the data in R (part 5)
 ==============================
 
-Examine the relationship between tibia length and body weight:
+Examine the relationship between tibia length and body weight (at
+dissection):
 
-```{r}
+```{r plot-tibia-vs-weight}
+p2 <- draw.scatterplot(pheno$Tibia.Length,pheno$Weight.Diss) +
+  labs(x = "tibia length (mm)",y = "body weight (g)")
+print(p2)
 ```
+
+Examine the relationship between tibia length and sex:
 
 *Optional exercise:* Follow these same processing and analysis steps
 to map genetic loci for LDL concentrations in blood (units = mmol/L).
