@@ -4,7 +4,7 @@
 #   slides from the R Markdown source.
 #
 # * Type "make test" to generate a PDF of the slides that also runs
-#   the R code.
+#   a lot of the R code.
 #
 # * Optionally, type "make handout" to generate a PDF document that
 #   can be used as a handout to distribute to workshop

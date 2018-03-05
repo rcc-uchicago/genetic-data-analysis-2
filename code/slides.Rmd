@@ -411,7 +411,8 @@ genotype file in the BIMBAM format. Run this script in R:
 source("format.genotypes.for.gemma.R")
 ```
 
-+ This will take a few minutes to run.
++ This will take a few minutes to run. Once it is done, run `q()` to
+exit R.
 
 Let's look at the GEMMA files:
 
@@ -504,6 +505,12 @@ This GEMMA command creates two files:
   (*p*-values, effect size estimates, *etc*).
 
 Use `less -S` or your favourite text editor to inspect these files.
+
+Assess inflation of *p*-values
+==============================
+
+LMM association analysis in GEMMA (part 1)
+==========================================
 
 Additional slide
 ================
