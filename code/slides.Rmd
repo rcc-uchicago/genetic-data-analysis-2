@@ -476,19 +476,34 @@ chmod 700 gemma
 ./gemma
 ```
 
-A simple linear-regression association analysis in GEMMA
-========================================================
+Basic association analysis in GEMMA (part 1)
+============================================
 
 Now that we have installed GEMMA, and we have prepared the phenotype
 and genotype data in the formats accepted by GEMMA, we are now ready
-to run our first association analysis.
+to run our first association analysis. 
 
 ```{bash gemma-lm, eval=FALSE}
 cd data
 ../bin/gemma -p pheno.txt -c covariates.txt \
-  -a map.txt -g geno.txt -notsnp -lm \
+  -a map.txt -g geno.txt -notsnp -lm 2 \
   -outdir ../output -o tibia
 ```
+
+The `-notsnp` option is included here to skip any additional
+processing of the genotype data.
+
+Basic association analysis in GEMMA (part 2)
+============================================
+
+This GEMMA command creates two files:
+
++ **tibia.log.txt:** A brief summary of the association analysis.
+
++ **tibia.assoc.txt:** The full table of association results
+  (*p*-values, effect size estimates, *etc*).
+
+Use `less -S` or your favourite text editor to inspect these files.
 
 Additional slide
 ================

@@ -4,4 +4,7 @@ data/chr*.map.txt
 data/chr*.geno.txt
 data/pheno.txt
 data/covariates.txt
+data/map.txt
 data/geno.txt
+output/*.log.txt
+output/*.assoc.txt

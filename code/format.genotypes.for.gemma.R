@@ -57,12 +57,11 @@ for (i in 1:19) {
   #
   # For some reason the dosages were stored as numbers between 0 and
   # 1, but ordinarily, for diploid organisms, the dosages would be
-  # stored as numbers between 0 and 2, representing the expected
-  # allele count. (Here, it isn't clear if this gives the count of the
-  # alternative or reference allele, because they did not document
-  # this. Typically these are the alternative or minor allele counts,
-  # but we would have to contact the authors to make sure, or see if
-  # this information is given somewhere in the paper.)
+  # stored as numbers between 0 and 2, representing an expected allele
+  # count. It appears that these are the expected counts of the
+  # ALTERNATIVE allele (to be certain, we would have to contact the
+  # authors to make sure, or see if this information is given
+  # somewhere in the paper).
   geno.file <- sprintf("../data/chr%02d.geno.txt",i)
   cat(" - Writing genotype data to",geno.file,"\n")
   pruned_dosages <- 2 * pruned_dosages
