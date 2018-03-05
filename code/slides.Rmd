@@ -310,10 +310,10 @@ summary(pheno$Weight.Diss)
 Examine the relationship between tibia length and body weight:
 
 ```{r plot-tibia-vs-weight}
-p2 <- draw.scatterplot(pheno$Tibia.Length,
-                       pheno$Weight.Diss) +
-  labs(x = "tibia length (mm)",
-       y = "body weight (g)")
+p2 <- draw.scatterplot(pheno$Weight.Diss,
+                       pheno$Tibia.Length) +
+  labs(x = "body weight (g)",
+       y = "tibia length (mm)")
 print(p2)
 ```
 
@@ -331,10 +331,18 @@ summary(pheno$Sex)
 Examine the relationship between tibia length and sex:
 
 ```{r plot-tibia-vs-sex}
-# p3 <- draw.box.plot
+p3 <- draw.boxplot(pheno$Sex,
+                   pheno$Tibia.Length) +
+  labs(x = "sex",y = "tibia length (mm)")
+print(p3)
 ```
 
-*Optional exercise:* Draw a violin plot.
+*Optional exercise:* Use `draw.violinplot` defined in `functions.R` to
+visualize the relationship between tibia length and sex with a violin
+plot.
+
+Additional slide
+================
 
 *Optional exercise (shown in a separate slide):* Follow these same
 processing and analysis steps to map genetic loci for LDL
