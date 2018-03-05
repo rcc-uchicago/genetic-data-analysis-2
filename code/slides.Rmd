@@ -337,6 +337,32 @@ p3 <- draw.boxplot(pheno$Sex,
 print(p3)
 ```
 
+Save phenotype data for GEMMA
+=============================
+
+Write the phenotype data to file `pheno.txt` in the format used by
+GEMMA:
+
+```{r write-phenotype-data}
+write.table(pheno$Tibia.Length,"../data/pheno.txt",
+            row.names = FALSE,col.names = FALSE)
+```
+
+Save covariate data for GEMMA
+=============================
+
+Write the covariate data to file `cov.txt` in the format used by
+GEMMA. This requires that we convert sex to a numeric value:
+
+```{r write-covariate-data}
+sex <- as.numeric(pheno$Sex) - 1
+write.table(data.frame(1,sex,pheno$Weight.Diss),
+            "../data/covariates.txt",row.names = FALSE,
+			col.names = FALSE)
+```
+
+Also, a column of ones is needed for the intercept in GEMMA.
+
 Additional slide
 ================
 
