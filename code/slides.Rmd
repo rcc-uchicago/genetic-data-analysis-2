@@ -417,7 +417,7 @@ Prepare the genotype data for GEMMA (part 2)
 ============================================
 
 Combine the genotypes into one file. This can be easily done with
-the `cat` command, which combines by lines (table rows):
+the `cat` command, which combines by lines (rows):
 
 ```{bash merge-genotype-data, eval=FALSE}
 cat chr*.geno.txt > geno.txt
@@ -433,15 +433,18 @@ cat chr*.map.txt > map.txt
 wc -l map.txt
 ```
 
-**Question:** why didn't we combine the genotypes inside the R
+**Question:** Why didn't we combine the genotypes inside the R
 script?
 
 Prepare the genotype data for GEMMA (part 3)
 ============================================
 
-A critical step in this script was to align
+A **critical** step in this script was to make sure that the samples
+in the genotype and phenotype files are listed in the same order. *A
+common mistake is to save the phenotypes and genotypes in different
+orders, which will lead to an incorrect association analysis!*
 
-
++ **Question:** Why is it easy to make this mistake in GEMMA?
 
 Additional slide
 ================
