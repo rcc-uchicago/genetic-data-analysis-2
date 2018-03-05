@@ -1,6 +1,6 @@
 # Function for reading the CFW phenotype data ("CFW_measures.txt") or
 # covariate data ("CFW_covariates.txt") from a tab-delimited file.
-read.flint.pheno <- function (file)
+read.pheno <- function (file)
   read.table(file,sep = "\t",quote = "",stringsAsFactors = FALSE,
              header = TRUE,check.names = FALSE)
 

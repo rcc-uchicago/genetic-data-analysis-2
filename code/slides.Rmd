@@ -170,67 +170,135 @@ In the `data` folder:
 
 + **CFW_covariates.txt:** covariate data for 2,117 CFW mice.
 
-+ **list_of_1934_mice_used_for_analysis.txt:** ids of the 1,934 mice
++ **listof1934miceusedforanalysis.txt:** ids of the 1,934 mice
   used in the final analyses of Nicod *et al*, 2016.
 
-See the `README` in the `data` folder for information.
++ **chr\*.prunedgen.final.maf001.0.98.RData:** imputed genotypes for
+  SNPs on chromosomes 1--19 used in the final analysis of Nicod *et
+  al*, 2016.
 
-Explore the data from the shell
-===============================
+See the `README` in the `data` folder for more details.
 
-First take a quick look the data using command-line tools:
+Explore the phenotype data from the terminal
+============================================
+
+First, let's take a quick look the phenotype data using command-line
+tools:
 
 ```{bash, eval=FALSE}
 less -S CFW_measures.txt
 wc -l CFW_measures.txt
 ```
 
+Likewise, the covariate data:
+
 ```{bash, eval=FALSE}
 less -S CFW_covariates.txt
 wc -l CFW_covariates.txt
 ```
 
-Explore the data in R
-=====================
+Explore the data in R (part 1)
+==============================
+
+Move to the **code** folder in the git repository. And on the RCC
+cluster, load R:
+
+```{bash, eval=FALSE}
+cd code
+module load R
+```
+
+Start up an interactive R environment:
+
+```{bash, eval=FALSE}
+R --no-save
+```
+
+Check which version of R you are running (hopefully version 3.4.0 or
+greater):
+
+```{r check-r-version}
+version$version.string
+```
+
+Also, before continuing, check your working directory:
+
+```{r check-wd}
+getwd()  # Should be .../code
+```
+
+Explore the data in R (part 2)
+==============================
 
 Load the phenotype and covariate data, and merge these data into a
-single table ("data frame"):
+single table ("data frame"), dropping the redundant second "id"
+column:
 
-```{r}
-dat1  <- read.flint.pheno("../data/CFW_measures.txt")
-dat2  <- read.flint.pheno("../data/CFW_covariates.txt")
+```{r load-pheno-data}
+source("functions.R")
+dat1 <- read.pheno("../data/CFW_measures.txt")
+dat2 <- read.pheno("../data/CFW_covariates.txt")
 pheno <- cbind(dat1,dat2[-1])
 ```
 
-Take a quick look at the data:
+Take a quick glance at the data:
 
-```{r}
+```{r glance-at-pheno-data}
 nrow(pheno)
 ncol(pheno)
+names(pheno)
 pheno[1:5,1:5]
 ```
 
-Select the same 1,934 samples that were used in Nicod et al (2016);
+Explore the data in R (part 3)
+==============================
 
-```{r}
-ids   <- read.table("../data/list_of_1934_mice_used_for_analysis.txt",
-                    stringsAsFactors = FALSE)[[1]]
+Select the same 1,934 samples that were used in Nicod *et al*
+(2016). First, we load the list of ids:
+
+```{r load-ids}
+x <- "../data/listof1934miceusedforanalysis.txt"
+ids <- read.table(x,stringsAsFactors = FALSE)
+ids <- ids[[1]]
+```
+
+Then we select the rows of the table that match up with the ids:
+
+```{r select-ids}
 rows  <- match(ids,pheno$Animal_ID)
 pheno <- pheno[rows,]
 nrow(pheno)
 ```
 
+Explore the data in R (part 4)
+==============================
+
 Take a closer look at the tibia length data (units = mm):
 
-```{r}
+```{r summarize-tibia-length}
 summary(pheno$Tibia.Length)
+```
+
+Plot the distribution of tibia length (`plot.dist` was defined in
+`functions.R`):
+
+```{r plot-tibia-length-dist}
 library(ggplot2)
 library(cowplot) # Optional.
 p1 <- plot.dist(pheno$Tibia.Length)
 print(p1)
-p1 <- p1 + labs(x = "tibia length (mm)",y = "number of mice")
+```
+
+Fix the axis labels in the plot:
+
+```{r plot-tibia-length-dist-2}
+p1 <- p1 + labs(x = "tibia length (mm)",
+                y = "number of mice")
 print(p1)
 ```
+
+Explore the data in R (part 5)
+==============================
 
 Examine the relationship between tibia length and body weight:
 
