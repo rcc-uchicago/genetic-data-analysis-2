@@ -357,11 +357,14 @@ GEMMA. This requires that we convert sex to a numeric value:
 ```{r write-covariate-data}
 sex <- as.numeric(pheno$Sex) - 1
 write.table(data.frame(1,sex,pheno$Weight.Diss),
-            "../data/covariates.txt",row.names = FALSE,
-			col.names = FALSE)
+            "../data/covariates.txt",sep = " ",
+			row.names = FALSE,col.names = FALSE)
 ```
 
 Also, a column of ones is needed for the intercept in GEMMA.
+
+Prepare the genotype data for GEMMA
+===================================
 
 Additional slide
 ================
