@@ -391,17 +391,33 @@ write.table(data.frame(1,sex,pheno$Weight.Diss),
 
 Also, a column of ones is needed for the intercept in GEMMA.
 
-Prepare the genotype data for GEMMA
-===================================
+Prepare the genotype data for GEMMA (part 1)
+============================================
 
-We use the BIMBAM genotype format. We have a script to convert
-formats.
+Processing the genotype data is more complicated, so I have provided a
+script to create, for each chromosome, a SNP annotation file and a
+genotype file in the BIMBAM format. Run this script in R:
 
 ```{r write-genotype-data, eval=FALSE}
 source("format.genotypes.for.gemma.R")
 ```
 
-Merge the genotype data into one file:
++ This will take a few minutes to run.
+
+Let's take a quick look at the GEMMA files:
+
+```{bash inspect-gemma-files, eval=FALSE}
+less chr01.map.txt
+wc -l chr01.map.txt
+less -S chr01.geno.txt
+wc -l chr01.geno.txt
+```
+
+Prepare the genotype data for GEMMA (part 2)
+============================================
+
+Combine the genotypes into one file. This can be easily done with
+the `cat` command, which combines by lines (table rows):
 
 ```{bash merge-genotype-data, eval=FALSE}
 cat chr*.geno.txt > geno.txt
@@ -410,12 +426,22 @@ tail geno.txt | less -S
 wc -l geno.txt
 ```
 
-We also need to merge the SNP annotations:
+We do the same for the SNP annotations:
 
 ```{bash merge-snp-data, eval=FALSE}
 cat chr*.map.txt > map.txt
 wc -l map.txt
 ```
+
+**Question:** why didn't we combine the genotypes inside the R
+script?
+
+Prepare the genotype data for GEMMA (part 3)
+============================================
+
+A critical step in this script was to align
+
+
 
 Additional slide
 ================

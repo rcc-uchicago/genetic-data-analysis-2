@@ -6,3 +6,5 @@
 * Send email to workshop participants.
 
 * Add people to thank in the Credits section of the README.
+
+* Incorporate materials from pcarbo/genetic-data-analysis-rcc-2.
