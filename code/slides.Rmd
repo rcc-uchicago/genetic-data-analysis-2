@@ -92,6 +92,8 @@ environment:
 1. Connect to midway2.
 
     + See https://rcc.uchicago.edu/docs/connecting.
+
+    + If you are using ThinLinc, use the "clipboard" to copy & paste.
     
 2. *Add screen and sinteractive commands here.*
 
@@ -138,10 +140,11 @@ need to download them separately.
   folder:
 
     ```
+	cd data
     bash download_genotypes.sh
     ```
 
-    This script requires `wget`.
+    This script requires the `wget` program.
 
 Download data (part 2)
 ======================
@@ -150,6 +153,7 @@ After following these steps, this should be the contents of your
 `data` directory:
 
 ```
+$ cd data
 $ ls -1
 README
 CFW_covariates.txt
@@ -164,7 +168,7 @@ chr19.prunedgen.final.maf001.0.98.RData
 The data we will use in our analyses
 ====================================
 
-In the `data` folder:
+Key files in the `data` folder:
 
 + **CFW_measures.txt:** 200 phenotypes collected from 2,117 CFW mice.
 
@@ -173,9 +177,8 @@ In the `data` folder:
 + **listof1934miceusedforanalysis.txt:** ids of the 1,934 mice
   used in the final analyses of Nicod *et al*, 2016.
 
-+ **chr\*.prunedgen.final.maf001.0.98.RData:** imputed genotypes for
-  SNPs on chromosomes 1--19 used in the final analysis of Nicod *et
-  al*, 2016.
++ **chr\*.prunedgen.final.maf001.0.98.RData:** genotypes for SNPs on
+  chromosomes 1--19 used in the final analysis of Nicod *et al*, 2016.
 
 See the `README` in the `data` folder for more details.
 
@@ -289,7 +292,7 @@ p1 <- plot.dist(pheno$Tibia.Length)
 print(p1)
 ```
 
-Fix the axis labels in the plot:
+Fix the axis labels, following Best Practices:
 
 ```{r plot-tibia-length-dist-2}
 p1 <- p1 + labs(x = "tibia length (mm)",
@@ -328,7 +331,9 @@ pheno <- transform(pheno,Sex = factor(Sex))
 summary(pheno$Sex)
 ```
 
-Examine the relationship between tibia length and sex:
+A boxplot is the standard approach to visualize the relationship
+between a continuous variable (tibia length) and a categorical
+variable (sex):
 
 ```{r plot-tibia-vs-sex}
 p3 <- draw.boxplot(pheno$Sex,
@@ -355,8 +360,8 @@ p4 <- plot.dist(r) + labs(x = "residuals")
 print(p4)
 ```
 
-Is the normal a good fit for the residuals? We can verify this more
-rigorously:
+Is the normal distribution a good fit for the residuals? We can verify
+this more rigorously:
 
 ```{r check-residuals}
 check.normal.quantiles(r)
@@ -372,24 +377,28 @@ ready to save the data in a format usable by GEMMA. First write the
 phenotype data to `pheno.txt`:
 
 ```{r write-phenotype-data}
-write.table(pheno$Tibia.Length,"../data/pheno.txt",
-            row.names = FALSE,col.names = FALSE)
+write.table(pheno$Tibia.Length,
+            "../data/pheno.txt",
+            row.names = FALSE,
+			col.names = FALSE)
 ```
 
 Save covariate data for GEMMA
 =============================
 
-Write the covariate data to file `cov.txt` in the format used by
-GEMMA. This requires that we convert sex to a numeric value:
+Write the covariate data to file `covariates.txt` in the format used
+by GEMMA. This requires that we convert sex to a numeric value:
 
 ```{r write-covariate-data}
 sex <- as.numeric(pheno$Sex) - 1
+unique(sex)
 write.table(data.frame(1,sex,pheno$Weight.Diss),
             "../data/covariates.txt",sep = " ",
 			row.names = FALSE,col.names = FALSE)
 ```
 
-Also, a column of ones is needed for the intercept in GEMMA.
+Also, a column of ones is needed for an intercept in the GEMMA
+regression analysis.
 
 Prepare the genotype data for GEMMA (part 1)
 ============================================
@@ -404,7 +413,7 @@ source("format.genotypes.for.gemma.R")
 
 + This will take a few minutes to run.
 
-Let's take a quick look at the GEMMA files:
+Let's look at the GEMMA files:
 
 ```{bash inspect-gemma-files, eval=FALSE}
 less chr01.map.txt
@@ -413,11 +422,13 @@ less -S chr01.geno.txt
 wc -l chr01.geno.txt
 ```
 
+*What do the numeric values in* `chr01.geno.txt` *represent?*
+
 Prepare the genotype data for GEMMA (part 2)
 ============================================
 
-Combine the genotypes into one file. This can be easily done with
-the `cat` command, which combines by lines (rows):
+The genotype data need to be combined into one file. This can be
+easily done with the `cat` command, which combines by lines (rows):
 
 ```{bash merge-genotype-data, eval=FALSE}
 cat chr*.geno.txt > geno.txt
@@ -433,18 +444,18 @@ cat chr*.map.txt > map.txt
 wc -l map.txt
 ```
 
-**Question:** Why didn't we combine the genotypes inside the R
-script?
+*Why didn't we combine the genotypes inside the R script?*
 
 Prepare the genotype data for GEMMA (part 3)
 ============================================
 
-A **critical** step in this script was to make sure that the samples
+A **critical step** in this script was to make sure that the samples
 in the genotype and phenotype files are listed in the same order. *A
-common mistake is to save the phenotypes and genotypes in different
-orders, which will lead to an incorrect association analysis!*
+common mistake is to save the phenotype and genotype samples in
+different orders, which will lead to an incorrect association
+analysis!*
 
-+ **Question:** Why is it easy to make this mistake in GEMMA?
++ Why is it easy to make this mistake in a GEMMA analysis?
 
 Additional slide
 ================

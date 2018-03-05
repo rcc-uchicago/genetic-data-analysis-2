@@ -46,7 +46,7 @@ draw.scatterplot <- function (x, y, size = 2) {
          theme(axis.line = element_blank()))
 }
 
-# Draw a box plot to visualize the relationship between a discrete
+# Draw a box plot to visualize the relationship between a categorical
 # variable x and a continuous variable y.
 draw.boxplot <- function (x, y)
   ggplot(data.frame(x = x,y = y),aes(x = x,y = y)) +

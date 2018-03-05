@@ -8,3 +8,7 @@
 * Add people to thank in the Credits section of the README.
 
 * Incorporate materials from pcarbo/genetic-data-analysis-rcc-2.
+
+* Test all data processing and analysis steps on midway2.
+
+* Add slide (or two) summarizing the Nicod et al study.
