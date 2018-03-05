@@ -30,5 +30,3 @@ draw.boxplot <- function (x, y)
   ggplot(data.frame(x = x,y = y),aes(x = x,y = y)) +
   geom_boxplot(width = 0.5,na.rm = TRUE) +
   theme(axis.line = element_blank())
-
-  

@@ -337,10 +337,6 @@ p3 <- draw.boxplot(pheno$Sex,
 print(p3)
 ```
 
-*Optional exercise:* Use `draw.violinplot` defined in `functions.R` to
-visualize the relationship between tibia length and sex with a violin
-plot.
-
 Additional slide
 ================
 
