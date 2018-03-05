@@ -6,6 +6,9 @@ files cannot be made publicly available).
 
 NOTES
 
+* download_genotypess.sh is a bash script that will automatically
+  retrieve the genotype files from http://mtweb.cs.ucl.ac.uk.
+
 * CFW_measures.txt contains measurements of 200 phenotypes collected
   from 2,117 CFW mice. These data accompany the Nature Genetics paper,
   "Genome-wide association of multiple complex traits in outbred mice
