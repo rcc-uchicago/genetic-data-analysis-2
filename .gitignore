@@ -3,3 +3,4 @@ data/chr*.map.txt
 data/chr*.geno.txt
 data/pheno.txt
 data/covariates.txt
+data/geno.txt

@@ -64,6 +64,7 @@ draw.qqplot <- function (x) {
   # variance.
   x <- (x - mean(x))/sqrt(var(x))
 
+  # Create the quantile-quantile plot using ggplot2.
   return(ggplot(data.frame(x = x),aes(sample = x)) +
          geom_abline(intercept = 0,slope = 1,color = "magenta") +
          geom_qq(color = "darkblue") +

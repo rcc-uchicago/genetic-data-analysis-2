@@ -49,9 +49,9 @@ Software tools we will use today
 
 2. R
 
-3. R packages `ggplot2` and `cowplot`.
+3. R packages `stringr`, `ggplot2` and `cowplot`.
 
-4. Basic shell commands such as ...
+4. Basic shell commands such as `wc` and `cat`.
 
 Outline of workshop
 ===================
@@ -394,6 +394,28 @@ Also, a column of ones is needed for the intercept in GEMMA.
 Prepare the genotype data for GEMMA
 ===================================
 
+We use the BIMBAM genotype format. We have a script to convert
+formats.
+
+```{r write-genotype-data, eval=FALSE}
+source("format.genotypes.for.gemma.R")
+```
+
+Merge the genotype data into one file:
+
+```{bash merge-genotype-data, eval=FALSE}
+cat chr*.geno.txt > geno.txt
+head geno.txt | less -S
+tail geno.txt | less -S
+wc -l geno.txt
+```
+
+We also need to merge the SNP annotations:
+
+```{bash merge-snp-data, eval=FALSE}
+cat chr*.map.txt > map.txt
+wc -l map.txt
+```
 
 Additional slide
 ================

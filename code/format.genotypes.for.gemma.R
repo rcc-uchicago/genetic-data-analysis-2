@@ -1,10 +1,30 @@
-# TO DO: Explain here what this script does, and how to use it.
+# This script prepares the genotype data for association analysis in
+# GEMMA. Preparing the genotype data involves these three steps:
+#
+#   1. Load the genotype data from the .RData file.
+#
+#   2. Write the SNP positions to a text file in the "SNP annotation"
+#      format used by GEMMA.
+#
+#   3. Align the columns of the genotype matrix to the rows of the
+#      phenotype data table (we use the ids in
+#      listof1934miceusedforanalysis.txt).
+#
+#   4. Write the genotypes to the "BIMBAM" format used by GEMMA.
+#
+library(stringr)
+
+# Load the list of 1,934 samples that were used in Nicod et al,
+# 2016. 
+ids <- read.table("../data/listof1934miceusedforanalysis.txt",
+                  stringsAsFactors = FALSE)[[1]]
 
 # Repeat for each autosomal chromosome.
 for (i in 1:19) {
   cat(sprintf("chromosome %d\n",i))
 
   # Load the genotype data from the .RData file.
+  cat(" - Loading genotype data from .RData file.\n")
   input.file <- sprintf("../data/chr%d.prunedgen.final.maf001.0.98.RData",i)
   load(input.file)
 
@@ -21,6 +41,14 @@ for (i in 1:19) {
   write.table(pruned_pos[c("ID","POS","CHR")],map.file,sep = " ",
               quote = FALSE,row.names = FALSE,col.names = FALSE)
 
+  # Align the columns of the genotype matrix so that they match up with
+  # the 1,934 selected ids.
+  geno.ids       <- unlist(nameList)
+  geno.ids       <- str_replace(geno.ids,fixed("___"),"/")
+  geno.ids       <- str_replace(geno.ids,fixed("_recal.reheadered.bam"),"")
+  cols           <- match(ids,geno.ids)
+  pruned_dosages <- pruned_dosages[,cols]
+  
   # Write the mean genotypes ("dosages") as a space-delimited text
   # file in the format used by GEMMA, in which we have one row per
   # marker, and one column per sample (mouse). The first three columns
@@ -43,5 +71,4 @@ for (i in 1:19) {
   pruned_dosages <- cbind(pruned_pos[c("ID","ALT","REF")],pruned_dosages)
   write.table(pruned_dosages,geno.file,sep = " ",quote = FALSE,
               row.names = FALSE,col.names = FALSE)
-
 }
