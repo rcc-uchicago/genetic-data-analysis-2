@@ -1,5 +1,3 @@
-* Add "outline" slides to slide deck.
-
 * Add people to thank in the Credits section of the README.
 
 * Incorporate materials from pcarbo/genetic-data-analysis-rcc-2.
@@ -7,12 +5,6 @@
 * Test all data processing and analysis steps on MacBook Pro and
   midway2 (and figure out how much memory is needed to run all the
   steps on midway2).
-
-* Test reservation.
-
-* Point out that most of the effort is preparing the data for GEMMA,
-  and verifying and interpreting the results of the association
-  analysis, not actually running GEMMA itself.
 
 * Add note somewhere about determining a significance threshold.
 

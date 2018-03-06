@@ -884,8 +884,9 @@ chromosomes 1--19. Now let's plot these *p*-values to get a visual
 summary of the association results.
 
 + I've written a function that uses `ggplot2` to create a "Manhattan
-plot" showing the results of our genome-wide association analysis. It
-takes as input a table of GEMMA association results:
+plot" showing the results of our genome-wide association analysis.
+
+Create the "Manhattan plot":
 
 ```{r plot-gwscan}
 plot.gwscan(gwscan)
@@ -893,17 +894,51 @@ plot.gwscan(gwscan)
 
 *On which chromosomes do we observe the strongest association signals?*
 
-Examine the association signal on chromosome 6
-==============================================
+Examine the association signal on chr. 6 (part 1)
+=================================================
 
 Above, our plot gave us a *genome-wide* overview of the regions of the
-genome contributing to variation in BMD. Next, let’s try to get a
-finer-scale view of the strongest association signal on chromosome 6.
+genome contributing to variation in BMD.
 
-Additional slide
-================
++ Next, let’s try to get a finer-scale view of the strongest
+association signal on chromosome 6.
 
-*Optional exercise (shown in a separate slide):* Follow these same
-processing and analysis steps to map genetic loci for LDL
-concentrations in blood (units = mmol/L).
+Create a data frame with the chromsome 6 association results.
 
+```{r get-gwscan-chr6}
+gwscan.chr6 <- subset(gwscan,chr == 6)
+```
+
+Next, plot the *p*-values against the base-pair position of the SNPs.
+
+```{r plot-pvalues-chr6}
+plot.region.pvalues(gwscan.chr6) +
+  scale_x_continuous(breaks = seq(0,200,10))
+```
+
+Examine the association signal on chr. 6 (part 2)
+=================================================
+
+It appears that the strongest association signal is isolated to
+positions of 145 Mb and greater. Let's zoom in on that region:
+
+```{r plot-pvalues-chr6-locus}
+dat <- subset(gwscan.chr6,ps > 145e6)
+plot.region.pvalues(dat,size = 2) +
+  scale_x_continuous(breaks = seq(145,150,0.5))
+```
+
+*Based on the p-value pattern, what would you propose as an
+approximate candidate region?*
+
+*Exercise:* Use the UCSC Genome Browser
+
+Visualizing the association signal: take-home points
+====================================================
+
+Recap
+=====
+
+*Optional exercise:* Repeat the same data processing and analysis
+steps to map genetic loci for LDL concentrations in blood (units =
+mmol/L); see the `"Bioch.LDL"` column in the phenotype table.

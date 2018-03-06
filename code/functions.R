@@ -92,7 +92,8 @@ plot.inflation <- function (x, size = 2) {
          theme(axis.line = element_blank()))
 }
 
-# TO DO: Explain here what this function does.
+# Create a Manhattan plot from a data frame containing the results of
+# a GEMMA association analysis.
 plot.gwscan <- function (gwscan, size = 1) {
 
   # Add a column with the marker index.
@@ -116,4 +117,23 @@ plot.gwscan <- function (gwscan, size = 1) {
          theme_cowplot(font_size = 10) +
          theme(axis.line = element_blank(),
                axis.ticks.x = element_blank()))
+}
+
+# Create a simple Manhattan plot from a data frame containing the
+# results of a GEMMA association analysis, in which p-values are
+# plotted against base-pair positions (in Mb).
+plot.region.pvalues <- function (gwscan, size = 1) {
+
+  # Convert the p-values to the -log10 scale.
+  gwscan <- transform(gwscan,p_lrt = -log10(p_lrt))
+
+  # Convert the positions to the Megabase (Mb) scale.
+  gwscan <- transform(gwscan,ps = ps/1e6)
+  
+  # Create a Manhattan plot.
+  return(ggplot(gwscan,aes(x = ps,y = p_lrt)) +
+         geom_point(color = "darkblue",size = size,shape = 20) +
+         labs(x = "base-pair position (Mb)",y = "-log10 p-value") +
+         theme_cowplot(font_size = 10) +
+         theme(axis.line = element_blank()))
 }
