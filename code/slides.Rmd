@@ -820,17 +820,36 @@ Next, fit an LMM separately for each SNP:
 This may take over 30 minutes to run, *so I have provided a compressed
 file in the* `output` *directory containing the result of this command.*
 
+Assess "genomic inflation" in LMM analysis
+==========================================
+
+In your R session, follow the same steps as before to load the GEMMA
+results and create a genomic inflation plot:
+
+```{r plot-gemma-lmm-pvalues}
+gwscan <-
+  read.table("../output/tibia-lmm.assoc.txt",
+             as.is = "rs",header = TRUE)
+plot.inflation(gwscan$p_lrt)
+```
+
+Compare against the previous inflation plot---*did the LMM reduce
+inflation of p-values?*
+
 Association analysis: take-home points
 ======================================
 
-+ LMMs are now one of the most widely used approaches to reduce inflation
++ LMMs are now one of the most widely used approaches to reduce
+inflation of false positive associations due to population structure
+and hidden relatedness.
 
-+ However, computationally intensive.
++ However, LMMs can be computationally intensive, especially for data
+sets with many samples.
 
-+ Also, LMMs can overcorrect inflation; this is particularly a problem
-in mouse GWAS due to long-range LD patterns, so a
-"leave-one-chromosome-out" strategy is often taken to prevent
-*deflation* of small $p$-values.
++ Another issue: LMMs can *overcorrect* inflation---this is
+particularly a problem in mouse GWAS due to long-range LD
+patterns. One solution is a "leave-one-chromosome-out" strategy (this
+was used in the Nicod *et al* paper).
 
 Outline of workshop
 ===================
@@ -857,26 +876,14 @@ Visualizing the association signal
 
 *Outline goes here.*
 
-Assess "genomic inflation" in LMM analysis
-==========================================
-
-In your R session, follow the same steps as before to load the GEMMA
-results and create a genomic inflation plot:
-
-```{r plot-gemma-lmm-pvalues}
-gwscan <-
-  read.table("../output/tibia-lmm.assoc.txt",
-             as.is = "rs",header = TRUE)
-plot.inflation(gwscan$p_lrt)
-```
-
-Compare against the previous inflation plot---*did the LMM reduce
-inflation of p-values?*
-
 Plot genome-wide scan for tibia length
 ======================================
 
-I've written a function that uses `ggplot2` to create a "Manhattan
+Using GEMMA, we computed association *p*-values at 353,697 SNPs on
+chromosomes 1--19. Now let's plot these *p*-values to get a visual
+summary of the association results.
+
++ I've written a function that uses `ggplot2` to create a "Manhattan
 plot" showing the results of our genome-wide association analysis. It
 takes as input a table of GEMMA association results:
 
@@ -889,7 +896,9 @@ plot.gwscan(gwscan)
 Examine the association signal on chromosome 6
 ==============================================
 
-*Add text here.*
+Above, our plot gave us a *genome-wide* overview of the regions of the
+genome contributing to variation in BMD. Next, let’s try to get a
+finer-scale view of the strongest association signal on chromosome 6.
 
 Additional slide
 ================
