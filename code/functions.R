@@ -92,3 +92,28 @@ plot.inflation <- function (x, size = 2) {
          theme(axis.line = element_blank()))
 }
 
+# TO DO: Explain here what this function does.
+plot.gwscan <- function (gwscan, size = 1) {
+
+  # Add a column with the marker index.
+  n      <- nrow(gwscan)
+  gwscan <- cbind(gwscan,marker = 1:n)
+
+  # Convert the p-values to the -log10 scale.
+  gwscan <- transform(gwscan,p_lrt = -log10(p_lrt))
+
+  # Add column "odd.chr" to the table, and find the positions of the
+  # chromosomes along the x-axis.
+  gwscan <- transform(gwscan,odd.chr = (chr %% 2) == 1)
+  x.chr  <- tapply(gwscan$marker,gwscan$chr,mean)
+  
+  # Create the genome-wide scan ("Manhattan plot").
+  return(ggplot(gwscan,aes(x = marker,y = p_lrt,color = odd.chr)) +
+         geom_point(size = size,shape = 20) +
+         scale_x_continuous(breaks = x.chr,labels = 1:19) +
+         scale_color_manual(values = c("skyblue","darkblue"),guide = "none") +
+         labs(x = "",y = "-log10 p-value") +
+         theme_cowplot(font_size = 10) +
+         theme(axis.line = element_blank(),
+               axis.ticks.x = element_blank()))
+}

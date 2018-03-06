@@ -121,7 +121,7 @@ Outline of workshop
 results.
 
 6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial association analysis.
+the initial analysis.
 
 7. Visualize the genome-wide association signal in R to (a) map tibia
 loci and (b) identify plausible tibia genes.
@@ -652,6 +652,26 @@ analysis!*
 
 + Why is it easier to make this mistake in a GEMMA analysis?
 
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Download genotype data.
+
+3. Prepare phenotype data.
+
+4. Prepare genotype data.
+
+5. **Run a basic association analysis in GEMMA, and assess quality of
+results.**
+
+6. Run an LMM-based association analysis in GEMMA, and compare against
+the initial analysis.
+
+7. Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.
+
 Set up GEMMA
 ============
 
@@ -755,8 +775,28 @@ this q-q plot against the LMM q-q plot.
 
 + *I recommend taking a screenshot of this plot before continuing.*
 
-LMM association analysis in GEMMA (part 1)
-==========================================
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Download genotype data.
+
+3. Prepare phenotype data.
+
+4. Prepare genotype data.
+
+5. Run a basic association analysis in GEMMA, and assess quality of
+results.
+
+6. **Run an LMM-based association analysis in GEMMA, and compare against
+the initial analysis.**
+
+7. Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.
+
+LMM association analysis in GEMMA
+=================================
 
 First, generate a "realized relatedness" matrix from the (centered)
 genotypes. This may take 10--15 minutes.
@@ -780,6 +820,43 @@ Next, fit an LMM separately for each SNP:
 This may take over 30 minutes to run, *so I have provided a compressed
 file in the* `output` *directory containing the result of this command.*
 
+Association analysis: take-home points
+======================================
+
++ LMMs are now one of the most widely used approaches to reduce inflation
+
++ However, computationally intensive.
+
++ Also, LMMs can overcorrect inflation; this is particularly a problem
+in mouse GWAS due to long-range LD patterns, so a
+"leave-one-chromosome-out" strategy is often taken to prevent
+*deflation* of small $p$-values.
+
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Download genotype data.
+
+3. Prepare phenotype data.
+
+4. Prepare genotype data.
+
+5. Run a basic association analysis in GEMMA, and assess quality of
+results.
+
+6. Run an LMM-based association analysis in GEMMA, and compare against
+the initial analysis.
+
+7. **Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.**
+
+Visualizing the association signal
+==================================
+
+*Outline goes here.*
+
 Assess "genomic inflation" in LMM analysis
 ==========================================
 
@@ -799,10 +876,18 @@ inflation of p-values?*
 Plot genome-wide scan for tibia length
 ======================================
 
-*Add text here.*
+I've written a function that uses `ggplot2` to create a "Manhattan
+plot" showing the results of our genome-wide association analysis. It
+takes as input a table of GEMMA association results:
 
-Examine the association signal on chromosome XXX
-================================================
+```{r plot-gwscan}
+plot.gwscan(gwscan)
+```
+
+*On which chromosomes do we observe the strongest association signals?*
+
+Examine the association signal on chromosome 6
+==============================================
 
 *Add text here.*
 
