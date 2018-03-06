@@ -16,12 +16,45 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
 Aims of workshop
 ================
 
-*Describe aims here.*
+1. Implement the basic steps of a genome-wide association analysis.
+
+2. Understand how phenotype and genotype data from a genome-wide
+association study (GWAS) are encoded in computer files.
+
+3. Use command-line tools to view and manipulate the phenotype and
+genotype data.
+
+4. Learn through "live coding"---this includes learning from our
+mistakes!
 
 Our research task
 =================
 
-*Describe research task here.*
+Our goal is identify and interpret genetic loci contributing to tibia
+bone development in mice.
+
+1. We will use data from this study:
+
+    - Nicod *et al* (2016). "Genome-wide association of multiple
+      complex traits in outbred mice by ultra-low-coverage
+      sequencing." *Nature Genetics* **48:** 912--918.
+
+2. To map tibia development genes, we will assess support for
+statistical association between tibia length (given sex and body
+weight) and 353,697 SNP genotypes. Specifically, we will compute
+*p*-values to quantify support for association.
+
+3. We will visualize the "association signal" to identify candidate
+genes for tibia bone development.
+
+3. We will see that <10% of the effort is running GEMMA; *we will spend
+most of our time preparing the data for GEMMA, and examining the GEMMA
+output in R.*
+
+Some background on the study
+============================
+
+
 
 It's your choice
 ================
@@ -596,10 +629,15 @@ plot.inflation(gwscan$p_lrt)
 Compare against the previous inflation plot---*did the LMM reduce
 inflation of p-values?*
 
-Plot a genome-wide scan
-=======================
+Plot genome-wide scan for tibia length
+======================================
 
+*Add text here.*
 
+Examine the association signal on chromosome XXX
+================================================
+
+*Add text here.*
 
 Additional slide
 ================
