@@ -57,7 +57,24 @@ output in R.*
 Some background on the study
 ============================
 
++ Mice are from an outbred population called "Carworth Farms White"
+(CFW).
 
++ 200 measurements (e.g., blood concentrations, muscle weights) were
+recorded in columns of a large table. We will analyze one
+column---tibia length.
+
++ Genotypes were obtained from *low-coverage* DNA sequencing (to save
+money!). Therefore, genotype data is lower quality.
+
++ Scale of data is comparable to human GWAS: 2,000 samples and
+350,000 SNPs.
+
++ Linkage disequilibrium (LD) decays faster than many other mouse
+populations, but not as rapidly as humans, so mapping resolution will
+not be as good as human GWAS.
+
++ One advantage over human GWAS: *data are publicly available.*
 
 It's your choice
 ================
@@ -104,7 +121,7 @@ Outline of workshop
 results.
 
 6. Run an LMM-based association analysis in GEMMA, and compare against
-initial analysis.
+the initial association analysis.
 
 7. Visualize the genome-wide association signal in R to (a) map tibia
 loci and (b) identify plausible tibia genes.
