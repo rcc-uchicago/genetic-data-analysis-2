@@ -556,8 +556,6 @@ cd data
 ../bin/gemma -p pheno.txt -g geno.txt \
   -a map.txt -gk 1 -outdir ../output \
   -o tibia
-less -S ../output/tibia.cXX.txt
-wc -l ../output/tibia.cXX.txt
 ```
 
 Next, fit a linear-mixed model separately for each SNP:
@@ -570,7 +568,7 @@ Next, fit a linear-mixed model separately for each SNP:
 ```
 
 This may take over 30 minutes, *so I have provided a compressed file in
-the* `output` *directory containing the LMM-based association results.*
+the* `output` *directory with the association results.*
 
 Assess "genomic inflation" in LMM analysis
 ==========================================
