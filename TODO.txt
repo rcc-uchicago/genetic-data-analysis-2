@@ -11,5 +11,7 @@
 
 * Test reservation.
 
-* Save LMM association results because it will take too long to run
-  during the workshop.
+* Point out that most of the effort is preparing the data for GEMMA,
+  and verifying and interpreting the results of the association
+  analysis, not actually running GEMMA itself.
+

@@ -598,6 +598,11 @@ plot.inflation(gwscan$p_lrt)
 Compare against the previous inflation plot---*did the LMM reduce
 inflation of p-values?*
 
+Plot a genome-wide scan
+=======================
+
+
+
 Additional slide
 ================
 
