@@ -569,11 +569,11 @@ Next, fit a linear-mixed model separately for each SNP:
   -lmm 2 -outdir ../output -o tibia-lmm
 ```
 
-This may take over 30 minutes, so I have provided a compressed file in
-the `output` directory containing the LMM-based association results.
+This may take over 30 minutes, *so I have provided a compressed file in
+the* `output` *directory containing the LMM-based association results.*
 
-Assess "genomic inflation" in LMM analysis (part 1)
-===================================================
+Assess "genomic inflation" in LMM analysis
+==========================================
 
 Start up R again:
 
@@ -582,15 +582,16 @@ cd code
 R --no-save
 ```
 
-Follow the same steps as before to load the results of the GEMMA
-association analysis, and create the genomic inflation plot:
+Follow the same steps as before to load the GEMMA results and create
+a genomic inflation plot:
 
 ```{r plot-gemma-lmm-pvalues}
 library(ggplot2)
 library(cowplot) # Optional.
 source("functions.R")
-gwscan <- read.table("../output/tibia-lmm.assoc.txt",
-                     as.is = "rs",header = TRUE)
+gwscan <-
+  read.table("../output/tibia-lmm.assoc.txt",
+             as.is = "rs",header = TRUE)
 plot.inflation(gwscan$p_lrt)
 ```
 
