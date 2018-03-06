@@ -652,8 +652,8 @@ analysis!*
 
 + Why is it easier to make this mistake in a GEMMA analysis?
 
-Install GEMMA
-=============
+Set up GEMMA
+============
 
 Download the GEMMA 0.96 to the `bin` folder.
 
@@ -685,7 +685,9 @@ cd data
   -outdir ../output -o tibia
 ```
 
-The `-notsnp` option is included here to skip any additional
+This should take a few minutes to complete.
+
++ The `-notsnp` option is included here to prevent any automatic
 processing of the genotype data.
 
 Basic association analysis in GEMMA (part 2)
@@ -703,28 +705,36 @@ Use `less -S` or your favourite text editor to inspect these files.
 Assess "genomic inflation" (part 1)
 ===================================
 
-A simple q-q plot is commonly used to assess inflation of small
-$p$-values, which could indicate a unacceptably high rate of false
-positive associations. This is a very rudimentary test, and has
-several problems, but is nonetheless useful as a simple
-diagnostic. Here we create a q-q plot in R.
+The q-q plot is commonly used to assess inflation of small $p$-values,
+which could indicate a high rate of false positive associations. This
+test has many well-known problems, but is nonetheless useful as a
+simple diagnostic.
 
-```{bash, eval=FALSE}
-cd code
-R --no-save
-```
++ Since we will be jumping back and forth between R and the
+command-line shell, it is better at this point to set up a second
+session, and run R separately in this session (as before, make sure
+that plotting to the screen works).
 
-Next, use `read.table` to load the results of the GEMMA association
++ **ThinLinc** is the recommended choice for running R on midway2.
+
++ Since the computation in R will not be intensive, you do not need to
+run `sinteractive`; running R from a login node is okay.
+
+Assess "genomic inflation" (part 2)
+===================================
+
+In R, use `read.table` to load the results of the GEMMA association
 analysis:
 
 ```{r load-gemma-pvalues}
+getwd() # Should be .../code
 gwscan <- read.table("../output/tibia.assoc.txt",
                      as.is = "rs",header = TRUE)
 head(gwscan)
 nrow(gwscan)
 ```
 
-Assess "genomic inflation" (part 2)
+Assess "genomic inflation" (part 3)
 ===================================
 
 Plot the observed *p*-values against the expected *p*-values under the
@@ -737,9 +747,13 @@ source("functions.R")
 plot.inflation(gwscan$p_lrt)
 ```
 
-Next, we will attempt an LMM-based association analysis, which can
-reduce inflation due to population structure and "hidden"relatedness.
-Save the current plot because we will compare against it, then quit R.
+Next, we will attempt an LMM-based association analysis, and compare
+this q-q plot against the LMM q-q plot.
+
++ The LMM reduce inflation due to population structure and "hidden"
+  relatedness.
+
++ *I recommend taking a screenshot of this plot before continuing.*
 
 LMM association analysis in GEMMA (part 1)
 ==========================================
@@ -763,8 +777,8 @@ Next, fit a linear-mixed model separately for each SNP:
   -lmm 2 -outdir ../output -o tibia-lmm
 ```
 
-This may take over 30 minutes, *so I have provided a compressed file in
-the* `output` *directory with the association results.*
+This may take over 30 minutes to run, *so I have provided a compressed
+file in the* `output` *directory containing the results of this analysis.*
 
 Assess "genomic inflation" in LMM analysis
 ==========================================
