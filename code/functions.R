@@ -71,3 +71,24 @@ draw.qqplot <- function (x) {
          labs(x = "normal quantiles",y = "empirical quantiles") +
          theme(axis.line = element_blank()))
 }
+
+# Create a "genomic inflation" plot---simply, the observed negative
+# log10 p-values against the expected p-values under the null
+# distribution.
+plot.inflation <- function (x, size = 2) {
+
+  # Get the number of p-values.
+  n <- length(x)
+    
+  # Compute the negative log10(p-values), and sort them from largest
+  # to smallest.
+  y <- rev(sort(-log10(x)))
+
+  # Create the q-q plot.
+  return(ggplot(data.frame(x = -log10((1:n)/n),y = y),aes(x = x,y = y)) +
+         geom_abline(intercept = 0,slope = 1,color = "magenta") +
+         geom_point(color = "dodgerblue",shape = 20,size = 2) +
+         labs(x = "Expected -log10 p-value",y = "Observed -log10 p-value") +
+         theme(axis.line = element_blank()))
+}
+

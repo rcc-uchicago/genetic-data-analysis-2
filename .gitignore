@@ -7,4 +7,5 @@ data/covariates.txt
 data/map.txt
 data/geno.txt
 output/*.log.txt
+output/*.cXX.txt
 output/*.assoc.txt

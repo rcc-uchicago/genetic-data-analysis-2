@@ -506,11 +506,71 @@ This GEMMA command creates two files:
 
 Use `less -S` or your favourite text editor to inspect these files.
 
-Assess inflation of *p*-values
-==============================
+Assess "genomic inflation" (part 1)
+===================================
+
+A simple q-q plot is commonly used to assess inflation of small
+$p$-values, which could indicate a unacceptably high rate of false
+positive associations. This is a very rudimentary test, and has
+several problems, but is nonetheless useful as a simple
+diagnostic. Here we create a q-q plot in R.
+
+```{bash, eval=FALSE}
+cd code
+R --no-save
+```
+
+Next, use `read.table` to load the results of the GEMMA association
+analysis:
+
+```{r load-gemma-pvalues}
+gwscan <- read.table("../output/tibia.assoc.txt",
+                     as.is = "rs",header = TRUE)
+head(gwscan)
+nrow(gwscan)
+```
+
+Assess "genomic inflation" (part 2)
+===================================
+
+Plot the observed *p*-values against the expected *p*-values under the
+null distribution:
+
+```{r plot-inflation}
+library(ggplot2)
+library(cowplot) # Optional.
+source("functions.R")
+p6 <- plot.inflation(gwscan$p_lrt)
+print(p6)
+```
+
+Let's quit R, and next we will attempt an LMM-based association
+analysis, which can reduce inflation due to population structure and
+"hidden" relatedness.
 
 LMM association analysis in GEMMA (part 1)
 ==========================================
+
+First, generate a "realized relatedness" matrix from the (centered)
+genotypes. This is actually the most computationally intensive step.
+
+```bash gemma-kinship, eval=FALSE}
+cd data
+../bin/gemma -p pheno.txt -g geno.txt \
+  -a map.txt -gk 1 -outdir ../output \
+  -o tibia
+less -S ../output/tibia.cXX.txt
+wc -l ../output/tibia.cXX.txt
+```
+
+Next, fit a linear-mixed model separately for each SNP:
+
+```{bash gemma-lm, eval=FALSE}
+../bin/gemma -p pheno.txt -c covariates.txt \
+  -a map.txt -g geno.txt -notsnp \
+  -k ../output/tibia.cXX.txt \
+  -lmm 2 -outdir ../output -o tibia-lmm
+```
 
 Additional slide
 ================

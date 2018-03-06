@@ -1,9 +1,4 @@
-* Write function to convert each .RData file to a genotype file in the
-  BIMBAM format.
-
 * Add "outline" slides to slide deck.
-
-* Send email to workshop participants.
 
 * Add people to thank in the Credits section of the README.
 
@@ -13,3 +8,6 @@
   out how much memory is needed to run all the steps on midway2).
 
 * Add slide (or two) summarizing the Nicod et al study.
+
+* Test reservation.
+
