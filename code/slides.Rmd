@@ -102,7 +102,7 @@ Software tools we will use today
 
 2. R
 
-3. R packages `stringr`, `ggplot2` and `cowplot`.
+3. R packages `stringr`, `data.table`, `ggplot2` and `cowplot`.
 
 4. Basic shell commands such as `wc` and `cat`.
 
@@ -211,10 +211,10 @@ Initial setup (part 5)
 ======================
 
 Let's start up R and make sure you can display graphics from R. On the
-RCC cluster, load R 3.4.3, then start up an interactive R environment:
+RCC cluster, load R, then start up an interactive R environment:
 
 ```{bash, eval=FALSE}
-module load R/3.4.3
+module load R
 R --no-save
 ```
 
@@ -286,6 +286,9 @@ need to download them separately.
     ```
 
     This script requires the `wget` program.
+
+*Note:* If you downloaded the genotype files before the workshop,
+please move these files into the `data folder.
 
 Download data (part 2)
 ======================
@@ -874,7 +877,14 @@ loci and (b) identify plausible tibia genes.**
 Visualizing the association signal
 ==================================
 
-*Outline goes here.*
+1. Summarize the genome-wide association signal for tibia length.
+
+2. Take a closer look at the strongest association signal.
+
+3. Based on the association signal, identify candidate genes.
+
+4. *Optional:* Visualize the relationship between tibia length and the
+top SNP association.
 
 Plot genome-wide scan for tibia length
 ======================================
@@ -928,13 +938,89 @@ plot.region.pvalues(dat,size = 2) +
   scale_x_continuous(breaks = seq(145,150,0.5))
 ```
 
-*Based on the p-value pattern, what would you propose as an
-approximate candidate region?*
+Let's identify the SNP with the strongest association to tibia length:
 
-*Exercise:* Use the UCSC Genome Browser
+```{r top-marker}
+i <- which.min(gwscan.chr6$p_lrt)
+gwscan.chr6[i,]
+```
+
+Examine the association signal on chr. 6 (part 3)
+=================================================
+
+Based on the pattern of p-values, what would you propose as an
+approximate candidate region?
+
++ *Exercise:* Use the UCSC Genome Browser (http://genome.ucsc.edu) to
+identify possible tibia bone development genes.
+
+Visualize genotype-phenotype relationship (optional)
+====================================================
+
+Above, we identified the SNP that is most strongly associated with
+tibia length.
+
++ Here, let's look closely at the relationship between tibia length
+and the genotype at this SNP.
+
+Load the GEMMA phenotype data:
+
+```{r load-pheno-gemma}
+y <- read.table("../data/pheno.txt")[[1]]
+```
+
+Visualize genotype-phenotype relationship (part 2)
+==================================================
+
+Load the GEMMA genotype data, and select the genotypes for the top
+SNP. To obtain discrete genotype values (0, 1 or 2), round to the
+nearest integer.
+
+```{r load-geno-gemma}
+library(data.table)
+geno <- fread("../data/chr06.geno.txt",sep = " ",
+              stringsAsFactors = FALSE)
+class(geno) <- "data.frame"
+geno        <- geno[-(1:3)]
+geno        <- as.matrix(geno)
+x           <- round(geno[i,-(1:3)])
+```
+
+Visualize genotype-phenotype relationship (part 3)
+==================================================
+
+If we convert the genotype to a "factor" (categorical variable), we
+can use the boxplot function we used earlier:
+
+```{r plot-pheno-vs-geno}
+x         <- factor(x,0:2)
+levels(x) <- c("GG","AG","AA")
+p4 <- draw.boxplot(x,y) +
+  labs(x = "genotype",y = "tibia length (mm)")
+print(p4)
+```
+
+Further, we can quickly quantify the relationship using the `lm`
+function in R:
+
+```{r lm-pheno-vs-geno}
+summary(lm(y ~ x,data.frame(x = x,y = y)))
+```
 
 Visualizing the association signal: take-home points
 ====================================================
+
++ Today we implemented the basic steps of a genome-wide association
+analysis.
+
++ We saw that most of the effort was getting the data ready for
+GEMMA, and carefully inspecting the GEMMA results.
+
++ Did not discuss how to determine an appropriate significance
+threshold. This is a complicated question and beyond the scope of this
+workshop. **My advice:** first take an *exploratory approach* and
+identify the strongest association signals, then later assess
+significance.
 
 Recap
 =====
