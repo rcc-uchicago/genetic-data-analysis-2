@@ -34,22 +34,15 @@ handout: handout.pdf
 
 # Generate the slides while also testing the R code.
 slides_test.pdf : ../code/slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = TRUE); \
-                    rmarkdown::render("../code/slides.Rmd", \
-                    output_file = "../docs/slides_test.pdf")'
+	Rscript -e 'knitr::opts_chunk$$set(eval = TRUE); rmarkdown::render("../code/slides.Rmd",output_file = "../docs/slides_test.pdf")'
 
 # Create the slides.
 slides.pdf : ../code/slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); \
-                    rmarkdown::render("../code/slides.Rmd", \
-                                      output_file = "../docs/slides.pdf")'
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("../code/slides.Rmd",output_file = "../docs/slides.pdf")'
 
 # Create the handout.
 handout.pdf : ../code/slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); \
-                    rmarkdown::render("../code/slides.Rmd", \
-                    output_format = "pdf_document", \
-                    output_file = "../docs/handout.pdf")'
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("../code/slides.Rmd",output_format = "pdf_document",output_file = "../docs/handout.pdf")'
 
 clean:
 	rm -f slides.tex slides.pdf slides_test.pdf handout.pdf
