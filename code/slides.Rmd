@@ -163,7 +163,14 @@ environment:
 
     + If you are using ThinLinc, use the "clipboard" to copy & paste.
     
-2. *Add screen and sinteractive commands here.*
+2. Request a midway2 ("Broadwell") compute node with 4 CPUs and 8 GB
+of memory:
+
+    ```
+    screen -S gda2workshop # Optional.
+    sinteractive --partition=broadwl --mem=8G \
+      --cpus-per-task=4 --time=3:00:00
+    ```
 
 Initial setup (part 4)
 ======================
@@ -201,8 +208,7 @@ need to download them separately.
 
 + URL: http://mtweb.cs.ucl.ac.uk/dosages
 
-+ Download the files for chromosomes 1 through 19 into the `data`
-  folder.
++ Download files for chromosomes 1--19 into the `data` folder.
 
 + You may find it easier to run the bash script provided in the `data`
   folder:
@@ -217,8 +223,8 @@ need to download them separately.
 Download data (part 2)
 ======================
 
-After following these steps, this should be the contents of your
-`data` directory:
+After following these steps, the contents of your `data` directory
+should look like this:
 
 ```
 $ cd data
@@ -236,17 +242,16 @@ chr19.prunedgen.final.maf001.0.98.RData
 The data we will use in our analyses
 ====================================
 
-Key files in the `data` folder:
-
-+ **CFW_measures.txt:** 200 phenotypes collected from 2,117 CFW mice.
++ **CFW_measures.txt:** a large table with 200 columns (phenotypes)
+  and 2,117 rows (CFW mice).
 
 + **CFW_covariates.txt:** covariate data for 2,117 CFW mice.
 
 + **listof1934miceusedforanalysis.txt:** ids of the 1,934 mice
-  used in the final analyses of Nicod *et al*, 2016.
+  used in the final analyses of Nicod *et al* (2016).
 
 + **chr\*.prunedgen.final.maf001.0.98.RData:** genotypes for SNPs on
-  chromosomes 1--19 used in the final analysis of Nicod *et al*, 2016.
+  chromosomes 1--19 used in the final analysis of Nicod *et al* (2016).
 
 See the `README` in the `data` folder for more details.
 
@@ -272,11 +277,11 @@ Explore the phenotype data in R (part 1)
 ========================================
 
 Move to the **code** folder in the git repository. And on the RCC
-cluster, load R:
+cluster, load R 3.4.3:
 
 ```{bash, eval=FALSE}
 cd code
-module load R
+module load R/3.4.3
 ```
 
 Start up an interactive R environment:
