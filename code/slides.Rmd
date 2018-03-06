@@ -759,7 +759,7 @@ LMM association analysis in GEMMA (part 1)
 ==========================================
 
 First, generate a "realized relatedness" matrix from the (centered)
-genotypes. This may take 5-10 minutes.
+genotypes. This may take 10--15 minutes.
 
 ```{bash gemma-kinship, eval=FALSE}
 cd data
@@ -768,7 +768,7 @@ cd data
   -o tibia
 ```
 
-Next, fit a linear-mixed model separately for each SNP:
+Next, fit an LMM separately for each SNP:
 
 ```{bash gemma-lmm, eval=FALSE}
 ../bin/gemma -p pheno.txt -c covariates.txt \
@@ -778,25 +778,15 @@ Next, fit a linear-mixed model separately for each SNP:
 ```
 
 This may take over 30 minutes to run, *so I have provided a compressed
-file in the* `output` *directory containing the results of this analysis.*
+file in the* `output` *directory containing the result of this command.*
 
 Assess "genomic inflation" in LMM analysis
 ==========================================
 
-Start up R again:
-
-```{bash, eval=FALSE}
-cd code
-R --no-save
-```
-
-Follow the same steps as before to load the GEMMA results and create
-a genomic inflation plot:
+In your R session, follow the same steps as before to load the GEMMA
+results and create a genomic inflation plot:
 
 ```{r plot-gemma-lmm-pvalues}
-library(ggplot2)
-library(cowplot) # Optional.
-source("functions.R")
 gwscan <-
   read.table("../output/tibia-lmm.assoc.txt",
              as.is = "rs",header = TRUE)
