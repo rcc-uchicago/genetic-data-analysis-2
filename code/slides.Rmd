@@ -167,7 +167,6 @@ environment:
 of memory:
 
     ```
-    screen -S gda2workshop # Optional.
     sinteractive --partition=broadwl --mem=8G \
       --cpus-per-task=4 --time=3:00:00
     ```
@@ -187,6 +186,34 @@ cd ~
 git clone https://github.com/rcc-uchicago/
   genetic-data-analysis-2.git
 ```
+
+Initial setup (part 5)
+======================
+
+Let's start up R and make sure you can display graphics from R. On the
+RCC cluster, load R 3.4.3, then start up an interactive R environment:
+
+```{bash, eval=FALSE}
+module load R/3.4.3
+R --no-save
+```
+
+Check which version of R you are running (hopefully version 3.4.0 or
+greater):
+
+```{r check-r-version}
+version$version.string
+```
+
+Here is a simple test plot:
+
+```{r plot-cars}
+plot(cars$dist,cars$speed)
+```
+
+You should see a scatterplot. If not, you should start a fresh R
+session in a new midway2 connection (**ThinLinc is the most reliable
+approach**). **Note:** run `q()` at any time to exit R.
 
 What's in the workshop packet
 =============================
@@ -276,28 +303,13 @@ wc -l CFW_covariates.txt
 Explore the phenotype data in R (part 1)
 ========================================
 
-Move to the **code** folder in the git repository. And on the RCC
-cluster, load R 3.4.3:
-
-```{bash, eval=FALSE}
-cd code
-module load R/3.4.3
-```
-
-Start up an interactive R environment:
+Move to the **code** folder in the git repository, then start up R:
 
 ```{bash, eval=FALSE}
 R --no-save
 ```
 
-Check which version of R you are running (hopefully version 3.4.0 or
-greater):
-
-```{r check-r-version}
-version$version.string
-```
-
-Also, before continuing, check your working directory:
+Before continuing, check your working directory:
 
 ```{r check-wd}
 getwd()  # Should be .../code
@@ -349,7 +361,8 @@ nrow(pheno)
 Explore the phenotype data in R (part 4)
 ========================================
 
-Take a closer look at the tibia length data (units = mm):
+Take a closer look at the data for the phenotype we are interested
+in---tibia length (units = mm):
 
 ```{r summarize-tibia-length}
 summary(pheno$Tibia.Length)
