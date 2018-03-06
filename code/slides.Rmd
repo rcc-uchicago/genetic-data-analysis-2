@@ -126,6 +126,26 @@ the initial association analysis.
 7. Visualize the genome-wide association signal in R to (a) map tibia
 loci and (b) identify plausible tibia genes.
 
+Outline of workshop
+===================
+
+1. **Initial setup.**
+
+2. Download genotype data.
+
+3. Prepare phenotype data.
+
+4. Prepare genotype data.
+
+5. Run a basic association analysis in GEMMA, and assess quality of
+results.
+
+6. Run an LMM-based association analysis in GEMMA, and compare against
+the initial association analysis.
+
+7. Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.
+
 Initial setup (part 1)
 ======================
 
@@ -213,7 +233,7 @@ plot(cars$dist,cars$speed)
 
 You should see a scatterplot. If not, you should start a fresh R
 session in a new midway2 connection (**ThinLinc is the most reliable
-approach**). **Note:** run `q()` at any time to exit R.
+approach**). *Note:* run `q()` at any time to exit R.
 
 What's in the workshop packet
 =============================
@@ -226,6 +246,26 @@ genetic-data-analysis-2
   /docs    # Additional workshop materials.
   /output  # All results are stored here.
 ```
+
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. **Download genotype data.**
+
+3. Prepare phenotype data.
+
+4. Prepare genotype data.
+
+5. Run a basic association analysis in GEMMA, and assess quality of
+results.
+
+6. Run an LMM-based association analysis in GEMMA, and compare against
+the initial association analysis.
+
+7. Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.
 
 Download data (part 1)
 ======================
@@ -282,6 +322,37 @@ The data we will use in our analyses
 
 See the `README` in the `data` folder for more details.
 
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Download genotype data.
+
+3. **Prepare phenotype data.**
+
+4. Prepare genotype data.
+
+5. Run a basic association analysis in GEMMA, and assess quality of
+results.
+
+6. Run an LMM-based association analysis in GEMMA, and compare against
+the initial association analysis.
+
+7. Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.
+
+Outline of phenotype data preparation
+=====================================
+
+1. Examine phenotype and covariate data from the terminal.
+
+2. Examine phenotype and covariate data in R.
+
+3. Verify phenotype residuals.
+
+4. Format phenotype and covariate data for GEMMA.
+
 Explore the phenotype data from the terminal
 ============================================
 
@@ -306,6 +377,7 @@ Explore the phenotype data in R (part 1)
 Move to the **code** folder in the git repository, then start up R:
 
 ```{bash, eval=FALSE}
+cd code
 R --no-save
 ```
 
@@ -484,6 +556,41 @@ write.table(data.frame(1,sex,pheno$Weight.Diss),
 Also, a column of ones is needed for an intercept in the GEMMA
 regression analysis.
 
+Preparing the phenotype data: take-home points
+==============================================
+
+Most association analyses will involve these steps:
+
+1. Carefully checking phenotype and covariate data for possible
+   issues, and resolving these issues (e.g., filtering out problematic
+   data, transforming phenotypes).
+
+2. Aligning phenotypes to genotypes.
+
+3. Reformatting the data.
+
+In this tutorial, we performed these steps in R.
+
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Download genotype data.
+
+3. Prepare phenotype data.
+
+4. **Prepare genotype data.**
+
+5. Run a basic association analysis in GEMMA, and assess quality of
+results.
+
+6. Run an LMM-based association analysis in GEMMA, and compare against
+the initial association analysis.
+
+7. Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.
+
 Prepare the genotype data for GEMMA (part 1)
 ============================================
 
@@ -495,8 +602,7 @@ genotype file in the BIMBAM format. Run this script in R:
 source("format.genotypes.for.gemma.R")
 ```
 
-+ This will take a few minutes to run. Once it is done, run `q()` to
-exit R.
++ This will take a few minutes to run. Once it is done, exit R.
 
 Let's look at the GEMMA files:
 
@@ -531,16 +637,20 @@ wc -l map.txt
 
 *Why didn't we combine the genotypes inside the R script?*
 
-Prepare the genotype data for GEMMA (part 3)
-============================================
+Preparing the genotype data: take-home points
+=============================================
 
-A **critical step** in this script was to make sure that the samples
++ Typically this is much more work---*we were fortunate that the
+authors provided the post-processing, post-QC (quality control)
+genotype data.*
+
++ A **critical step** in this script was to make sure that the samples
 in the genotype and phenotype files are listed in the same order. *A
 common mistake is to save the phenotype and genotype samples in
 different orders, which will lead to an incorrect association
 analysis!*
 
-+ Why is it easy to make this mistake in a GEMMA analysis?
++ Why is it easier to make this mistake in a GEMMA analysis?
 
 Install GEMMA
 =============
