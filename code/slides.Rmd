@@ -21,6 +21,9 @@ Aims of workshop
 2. Understand how phenotype and genotype data from a genome-wide
 association study (GWAS) are encoded in computer files.
 
+3. Understand some of the benefits (and complications) of using
+linear-mixed models (LMMs) for GWAS.
+
 3. Use command-line tools to view and manipulate the phenotype and
 genotype data.
 
@@ -89,7 +92,22 @@ Software tools we will use today
 Outline of workshop
 ===================
 
-*Add outline here.*
+1. Initial setup.
+
+2. Download genotype data.
+
+3. Prepare phenotype data.
+
+4. Prepare genotype data.
+
+5. Run a basic association analysis in GEMMA, and assess quality of
+results.
+
+6. Run an LMM-based association analysis in GEMMA, and compare against
+initial analysis.
+
+7. Visualize the genome-wide association signal in R to (a) map tibia
+loci and (b) identify plausible tibia genes.
 
 Initial setup (part 1)
 ======================
