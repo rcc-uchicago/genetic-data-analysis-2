@@ -356,8 +356,7 @@ r   <- resid(fit)
 Plot the distribution of the residuals:
 
 ```{r plot-residuals}
-p4 <- plot.dist(r) + labs(x = "residuals")
-print(p4)
+plot.dist(r) + labs(x = "residuals")
 ```
 
 Is the normal distribution a good fit for the residuals? We can verify
@@ -365,8 +364,7 @@ this more rigorously:
 
 ```{r check-residuals}
 check.normal.quantiles(r)
-p5 <- draw.qqplot(r)
-print(p5)
+draw.qqplot(r)
 ```
 
 Save phenotype data for GEMMA
@@ -540,19 +538,18 @@ null distribution:
 library(ggplot2)
 library(cowplot) # Optional.
 source("functions.R")
-p6 <- plot.inflation(gwscan$p_lrt)
-print(p6)
+plot.inflation(gwscan$p_lrt)
 ```
 
-Let's quit R, and next we will attempt an LMM-based association
-analysis, which can reduce inflation due to population structure and
-"hidden" relatedness.
+Next, we will attempt an LMM-based association analysis, which can
+reduce inflation due to population structure and "hidden"relatedness.
+Save the current plot because we will compare against it, then quit R.
 
 LMM association analysis in GEMMA (part 1)
 ==========================================
 
 First, generate a "realized relatedness" matrix from the (centered)
-genotypes. This is actually the most computationally intensive step.
+genotypes. This may take 5-10 minutes.
 
 ```bash gemma-kinship, eval=FALSE}
 cd data
@@ -571,6 +568,32 @@ Next, fit a linear-mixed model separately for each SNP:
   -k ../output/tibia.cXX.txt \
   -lmm 2 -outdir ../output -o tibia-lmm
 ```
+
+*Give estimated compute time.*
+
+Assess "genomic inflation" in LMM analysis (part 1)
+===================================================
+
+Start up R again:
+
+```{bash, eval=FALSE}
+cd code
+R --no-save
+```
+
+Follow the same steps as before to load the results of the GEMMA
+association analysis, and create the genomic inflation plot:
+
+```{r plot-gemma-lmm-pvalues}
+library(ggplot2)
+library(cowplot) # Optional.
+source("functions.R")
+gwscan <- read.table("../output/tibia-lmm.assoc.txt",
+                     as.is = "rs",header = TRUE)
+plot.inflation(gwscan$p_lrt)
+```
+
+Compare against the previous inflation plot---*add question(s) here.*
 
 Additional slide
 ================

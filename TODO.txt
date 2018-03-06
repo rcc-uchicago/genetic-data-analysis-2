@@ -11,3 +11,5 @@
 
 * Test reservation.
 
+* Save LMM association results because it will take too long to run
+  during the workshop.
