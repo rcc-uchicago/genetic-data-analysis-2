@@ -963,6 +963,9 @@ approximate candidate region?
 identify genes in or near the strongest association signal on
 chromosome 6 that may play a role in (tibia) bone development.
 
+    + You will need to use NCBI release 38 (mm10) of the mouse genome
+      assembly.
+
 *Optional:* Visualize genotype-phenotype relationship
 =====================================================
 
@@ -1012,7 +1015,8 @@ alternative allele, so 2 corresponds to genotype AA.
 
 ```{r plot-pheno-vs-geno}
 print(draw.boxplot(geno,pheno) +
-  labs(x = "genotype",y = "tibia length (mm)"))
+  labs(x = "genotype",y = "tibia length (mm)",
+       title = "chr. 6: 146,795,232 bp"))
 ```
 
 This provides a visual summary of the genotype-phenotype relationship.
