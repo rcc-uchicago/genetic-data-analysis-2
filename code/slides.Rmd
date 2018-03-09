@@ -21,7 +21,7 @@ Aims of workshop
 2. Understand how phenotype and genotype data from a genome-wide
 association study (GWAS) are encoded in computer files.
 
-3. Understand some of the benefits (and complications) of using
+3. Understand some of the benefits (and complications!) of using
 linear-mixed models (LMMs) for GWAS.
 
 3. Use command-line tools to view and manipulate the phenotype and
@@ -62,10 +62,10 @@ Some background on the study
 
 + 200 measurements (e.g., blood concentrations, muscle weights) were
 recorded in columns of a large table. We will analyze one
-column---tibia length.
+column: tibia length.
 
-+ Genotypes were obtained from *low-coverage* DNA sequencing (to save
-money!). Therefore, genotype data is lower quality.
++ Genotypes were obtained from *low-coverage* DNA sequencing (low
+coverage to save money). Therefore, genotype data is lower quality.
 
 + Scale of data is comparable to human GWAS: 2,000 samples and
 350,000 SNPs.
@@ -74,7 +74,7 @@ money!). Therefore, genotype data is lower quality.
 populations, but not as rapidly as humans, so mapping resolution will
 not be as good as human GWAS.
 
-+ One advantage over human GWAS: *data are publicly available.*
++ One advantage over human GWAS: **data are publicly available.**
 
 It's your choice
 ================
@@ -194,8 +194,8 @@ of memory:
 Initial setup (part 4)
 ======================
 
-If you are using the RCC cluster, also download the workshop packet
-to your home directory on the cluster.
+If you are using the RCC cluster, **also** download the workshop
+packet to your home directory on the cluster.
 
 * URL: https://github.com/rcc-uchicago/genetic-data-analysis-2
 
@@ -288,7 +288,7 @@ need to download them separately.
     This script requires the `wget` program.
 
 *Note:* If you downloaded the genotype files before the workshop,
-please move these files into the `data folder.
+please move these files into the `data` folder.
 
 Download data (part 2)
 ======================
@@ -453,7 +453,7 @@ p1 <- plot.dist(pheno$Tibia.Length)
 print(p1)
 ```
 
-Fix the axis labels, following Best Practices:
+Let's fix the axis labels, following Best Practices:
 
 ```{r plot-tibia-length-dist-2}
 p1 <- p1 + labs(x = "tibia length (mm)",
@@ -520,8 +520,8 @@ Plot the distribution of the residuals:
 plot.dist(r) + labs(x = "residuals")
 ```
 
-Is the normal distribution a good fit for the residuals? We can verify
-this more rigorously:
+*Optional exercise:* Assess the fit of the normal distribution using
+ these commands:
 
 ```{r check-residuals}
 check.normal.quantiles(r)
@@ -546,11 +546,10 @@ Save covariate data for GEMMA
 =============================
 
 Write the covariate data to file `covariates.txt` in the format used
-by GEMMA. This requires that we convert sex to a numeric value:
+by GEMMA. We need to first convert sex to a numeric value:
 
 ```{r write-covariate-data}
-sex <- as.numeric(pheno$Sex) - 1
-unique(sex)
+sex <- as.numeric(pheno$Sex) - 1 # Now 0 or 1.
 write.table(data.frame(1,sex,pheno$Weight.Diss),
             "../data/covariates.txt",sep = " ",
 			row.names = FALSE,col.names = FALSE)
@@ -653,7 +652,7 @@ common mistake is to save the phenotype and genotype samples in
 different orders, which will lead to an incorrect association
 analysis!*
 
-+ Why is it easier to make this mistake in a GEMMA analysis?
++ Why is the PLINK file format helpful for preventing such errors?
 
 Outline of workshop
 ===================
@@ -678,7 +677,7 @@ loci and (b) identify plausible tibia genes.
 Set up GEMMA
 ============
 
-Download the GEMMA 0.96 to the `bin` folder.
+Download GEMMA 0.96 to the `bin` folder.
 
 + URL: https://github.com/genetics-statistics/GEMMA/releases
 
@@ -688,9 +687,9 @@ On the RCC cluster, you can run these commands to install the GEMMA
 ```{bash get-gemma, eval=FALSE}
 cd bin
 wget http://bit.ly/2I67fBV -O gemma.linux.gz
-gunzip gemma.gz
+gunzip gemma.linux.gz
 mv gemma.linux gemma
-chmod 700 gemma
+chmod 700 gemma # So you can run it.
 ./gemma
 ```
 
@@ -708,7 +707,7 @@ cd data
   -outdir ../output -o tibia
 ```
 
-This should take a few minutes to complete.
+This should take no more than a few minutes to complete.
 
 + The `-notsnp` option is included here to prevent any automatic
 processing of the genotype data.
@@ -723,60 +722,7 @@ This GEMMA command creates two files:
 + **tibia.assoc.txt:** The full table of association results
   (*p*-values, effect size estimates, *etc*).
 
-Use `less -S` or your favourite text editor to inspect these files.
-
-Assess "genomic inflation" (part 1)
-===================================
-
-The q-q plot is commonly used to assess inflation of small $p$-values,
-which could indicate a high rate of false positive associations. This
-test has many well-known problems, but is nonetheless useful as a
-simple diagnostic.
-
-+ Since we will be jumping back and forth between R and the
-command-line shell, it is better at this point to set up a second
-session, and run R separately in this session (as before, make sure
-that plotting to the screen works).
-
-+ **ThinLinc** is the recommended choice for running R on midway2.
-
-+ Since the computation in R will not be intensive, you do not need to
-run `sinteractive`; running R from a login node is okay.
-
-Assess "genomic inflation" (part 2)
-===================================
-
-In R, use `read.table` to load the results of the GEMMA association
-analysis:
-
-```{r load-gemma-pvalues}
-getwd() # Should be .../code
-gwscan <- read.table("../output/tibia.assoc.txt",
-                     as.is = "rs",header = TRUE)
-head(gwscan)
-nrow(gwscan)
-```
-
-Assess "genomic inflation" (part 3)
-===================================
-
-Plot the observed *p*-values against the expected *p*-values under the
-null distribution:
-
-```{r plot-inflation}
-library(ggplot2)
-library(cowplot) # Optional.
-source("functions.R")
-plot.inflation(gwscan$p_lrt)
-```
-
-Next, we will attempt an LMM-based association analysis, and compare
-this q-q plot against the LMM q-q plot.
-
-+ The LMM reduce inflation due to population structure and "hidden"
-  relatedness.
-
-+ *I recommend taking a screenshot of this plot before continuing.*
+Use `less -S`, or your favourite text editor, to inspect these files.
 
 Outline of workshop
 ===================
@@ -820,14 +766,60 @@ Next, fit an LMM separately for each SNP:
   -lmm 2 -outdir ../output -o tibia-lmm
 ```
 
-This may take over 30 minutes to run, *so I have provided a compressed
-file in the* `output` *directory containing the result of this command.*
+These two steps may take an hour or longer combined, *so I have
+provided a compressed file in the* `output` *directory containing the
+result of this command. To use this file, run
 
-Assess "genomic inflation" in LMM analysis
-==========================================
+```{bash, eval]FALSE}
+gunzip tibia-lmm.assoc.txt.gz
+```
 
-In your R session, follow the same steps as before to load the GEMMA
-results and create a genomic inflation plot:
+*Optional:* Compare "genomic inflation" (part 1)
+================================================
+
+The LMM is expected to reduce inflation of small *p*-values; a high
+level of inflation could indicate many *false positive* associations
+(e.g., due to populations tructure or "hidden" relatedness). *Here we
+will check that the LMM does this.*
+
++ The q-q plot is commonly used to assess inflation. This test has
+many well-known problems, but is nonetheless useful as a simple
+diagnostic.
+
+Start up R again, and use `read.table` to load the results of the
+GEMMA association analysis:
+
+```{r load-gemma-pvalues}
+getwd() # Should be .../code
+gwscan <- read.table("../output/tibia.assoc.txt",
+                     as.is = "rs",header = TRUE)
+head(gwscan)
+nrow(gwscan)
+```
+
+*Optional:* Compare "genomic inflation" (part 2)
+================================================
+
+Plot the observed *p*-values against the expected *p*-values under the
+null distribution:
+
+```{r plot-inflation}
+library(ggplot2)
+library(cowplot) # Optional.
+source("functions.R")
+plot.inflation(gwscan$p_lrt)
+```
+
+Next, we will compare this plot against the LMM q-q plot.
+
+  + At this point, I recommend taking a screenshot of this plot
+  before continuing.
+
+*Optional:* Compare "genomic inflation" (part 3)
+================================================
+
+Follow the same steps as before to load the GEMMA results and create a
+genomic inflation plot:
 
 ```{r plot-gemma-lmm-pvalues}
 gwscan <-
@@ -852,7 +844,7 @@ sets with many samples.
 + Another issue: LMMs can *overcorrect* inflation---this is
 particularly a problem in mouse GWAS due to long-range LD
 patterns. One solution is a "leave-one-chromosome-out" strategy (this
-was used in the Nicod *et al* paper).
+strategy was used in the Nicod *et al* paper).
 
 Outline of workshop
 ===================
@@ -983,7 +975,7 @@ geno <- fread("../data/chr06.geno.txt",sep = " ",
 class(geno) <- "data.frame"
 geno        <- geno[-(1:3)]
 geno        <- as.matrix(geno)
-x           <- round(geno[i,-(1:3)])
+x           <- round(geno[i,])
 ```
 
 Visualize genotype-phenotype relationship (part 3)

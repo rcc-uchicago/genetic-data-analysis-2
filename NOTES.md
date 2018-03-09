@@ -7,7 +7,7 @@
 + Use Terminal, not iTerm.
 + Use Consolas font.
 + Use these Terminal themes: Basic, Novel or Ocean.
-+ Fix prompt on midway.
++ Fix prompt on midway2.
 + Distribute Yubikeys.
 + Test reservation `gda2_workshop`.
  

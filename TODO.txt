@@ -1,3 +1,0 @@
-* Add note somewhere about determining a significance threshold.
-
-* Commit slides.pdf.
