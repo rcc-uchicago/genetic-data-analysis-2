@@ -878,23 +878,38 @@ Visualizing the association signal
 4. *Optional:* Visualize the relationship between tibia length and the
 top SNP association.
 
-Plot genome-wide scan for tibia length
-======================================
+Plot genome-wide scan for tibia length (part 1)
+===============================================
 
 Using GEMMA, we computed association *p*-values at 353,697 SNPs on
 chromosomes 1--19. Now let's plot these *p*-values to get a visual
-summary of the association results.
+summary of the association results. First, load the results of the LMM
+association analysis:
 
-+ I've written a function that uses `ggplot2` to create a "Manhattan
-plot" showing the results of our genome-wide association analysis.
+```{r load-gemma-lmm-pvalues}
+getwd() # Should be .../code
+gwscan <-
+  read.table("../output/tibia-lmm.assoc.txt",
+             as.is = "rs",header = TRUE)
+head(gwscan)
+nrow(gwscan)
+```
 
-Create the "Manhattan plot":
+Plot genome-wide scan for tibia length (part 2)
+===============================================
+
+I wrote a function that uses `ggplot2` to create a "Manhattan plot"
+showing the results of the association analysis.
 
 ```{r plot-gwscan}
+library(ggplot2)
+library(cowplot) # Optional.
+source("functions.R")
 plot.gwscan(gwscan)
 ```
 
-*On which chromosomes do we observe the strongest association signals?*
++ *On which chromosomes do we observe the strongest association
+  signals?*
 
 Examine the association signal on chr. 6 (part 1)
 =================================================
@@ -930,7 +945,8 @@ plot.region.pvalues(dat,size = 2) +
   scale_x_continuous(breaks = seq(145,150,0.5))
 ```
 
-Let's identify the SNP with the strongest association to tibia length:
+Let's identify the SNP on chromosome 6 that is most strongly
+associated with tibia length:
 
 ```{r top-marker}
 i <- which.min(gwscan.chr6$p_lrt)
@@ -944,7 +960,8 @@ Based on the pattern of p-values, what would you propose as an
 approximate candidate region?
 
 + *Exercise:* Use the UCSC Genome Browser (http://genome.ucsc.edu) to
-identify possible tibia bone development genes.
+identify genes in or near the strongest association signal on
+chromosome 6 that may play a role in (tibia) bone development.
 
 Visualize genotype-phenotype relationship (optional)
 ====================================================
