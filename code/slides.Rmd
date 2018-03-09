@@ -770,7 +770,7 @@ These two steps may take an hour or longer combined, *so I have
 provided a compressed file in the* `output` *directory containing the
 result of this command. To use this file, run
 
-```{bash, eval]FALSE}
+```{bash, eval=FALSE}
 gunzip tibia-lmm.assoc.txt.gz
 ```
 
