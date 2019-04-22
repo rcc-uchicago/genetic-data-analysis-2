@@ -384,140 +384,123 @@ Outline of workshop
 Challenge #2: Prepare the data for GWAS
 =======================================
 
-+ Aim:
++ Aim: Perform an exploratory analysis of the phenotype and covariate
+  data, and prepare the data for association analysis with GEMMA.
 
 + Steps:
 
-Explore the phenotype data from the terminal
-============================================
+    1. Import phenotype and covariate data into R.
 
-First, let's take a quick look the phenotype data using command-line
-tools:
+    2. Explore phenotype and covariate data in R.
 
-```{bash, eval=FALSE}
-less -S CFW_measures.txt
-wc -l CFW_measures.txt
-```
+    3. Save phenotype and covariate data for GEMMA.
 
-Likewise, the covariate data:
+    4. Prepare genotype data for GEMMA.
 
-```{bash, eval=FALSE}
-less -S CFW_covariates.txt
-wc -l CFW_covariates.txt
-```
+Import phenotypes and covariates into R
+=======================================
 
-Explore the phenotype data in R (part 1)
-========================================
-
-Move to the **code** folder in the git repository, then start up R:
+Start up R. On midway2, run:
 
 ```{bash, eval=FALSE}
-cd code
 R --no-save
 ```
 
-Before continuing, check your working directory:
+Before continuing, verify that your R working directory is set to the
+"genetic-data-analysis-2" repository:
 
 ```{r check-wd-2}
-getwd()  # Should be .../code
+getwd()
 ```
 
-Explore the phenotype data in R (part 2)
-========================================
+> Instructor notes: Before entering R, take a quick look at the
+> phenotype and covariate data using simple command-line tools such as
+> "less" and "wc".
 
-Load the phenotype and covariate data, and merge these data into a
-single table ("data frame"), dropping the redundant second "id"
-column:
+Import phenotypes and covariates into R
+=======================================
+
+Load the phenotype and covariate data:
 
 ```{r load-pheno-data}
 source("functions.R")
-dat1 <- read.pheno("../data/CFW_measures.txt")
-dat2 <- read.pheno("../data/CFW_covariates.txt")
+dat1 <- read.pheno("CFW_measures.txt")
+dat2 <- read.pheno("CFW_covariates.txt")
+```
+
+Merge the two data frames, dropping the redundant "id" column:
+
+```{r merge-pheno-data}
 pheno <- cbind(dat1,dat2[-1])
 ```
 
-Take a quick glance at the data:
+Select samples
+==============
 
-```{r glance-at-pheno-data}
-nrow(pheno)
-ncol(pheno)
-sort(names(pheno))
-pheno[1:5,1:5]
-```
-
-Explore the phenotype data in R (part 3)
-========================================
-
-Select the same 1,934 samples that were used in Nicod *et al*
-(2016). First, we load the list of ids:
+We will use the same 1,934 samples that were used in the published
+association analysis (Nicod *et al*, 2016). First, load the selected
+sample ids:
 
 ```{r load-ids}
-x <- "../data/listof1934miceusedforanalysis.txt"
-ids <- read.table(x,stringsAsFactors = FALSE)
-ids <- ids[[1]]
+ids <-
+  read.table("listof1934miceusedforanalysis.txt",
+             stringsAsFactors = FALSE)[[1]]
 ```
 
-Then we select the rows of the table that match up with the ids:
+Next, select the rows of the phenotype table that match up with the
+ids:
 
 ```{r select-ids}
 rows  <- match(ids,pheno$Animal_ID)
 pheno <- pheno[rows,]
-nrow(pheno)
 ```
 
-Explore the phenotype data in R (part 4)
-========================================
+Examine tibia length
+====================
 
-Take a closer look at the data for the phenotype we are interested
-in---tibia length (units = mm):
+Take a closer look at the data for the main phenotype of interest
+---tibia length (units are "mm"):
 
 ```{r summarize-tibia-length}
 summary(pheno$Tibia.Length)
 ```
 
-Plot the distribution of tibia length (`plot.dist` was defined in
-`functions.R`):
+Plot the distribution of tibia length:
 
 ```{r plot-tibia-length-dist}
 library(ggplot2)
-library(cowplot) # Optional.
-p1 <- plot.dist(pheno$Tibia.Length)
+library(cowplot)
+p1 <- ggplot(pheno,aes(Tibia.Length)) +
+      geom_histogram(fill = "darkblue")
 print(p1)
 ```
 
-Let's fix the axis labels, following Best Practices:
+Examine tibia length vs. body weight
+====================================
 
-```{r plot-tibia-length-dist-2}
-p1 <- p1 + labs(x = "tibia length (mm)",
-                y = "number of mice")
-print(p1)
-```
-
-Explore the covariate data in R (part 1)
-========================================
-
-The authors recommend using body weight as a covariate in the
-association analysis:
+The study authors recommend using body weight as a covariate in the
+association analysis (units are "g"):
 
 ```{r summarize-body-weight}
 summary(pheno$Weight.Diss)
 ```
 
-Examine the relationship between tibia length and body weight:
+Visualize the relationship between tibia length and body weight:
 
 ```{r plot-tibia-vs-weight}
-p2 <- draw.scatterplot(pheno$Weight.Diss,
-                       pheno$Tibia.Length) +
-  labs(x = "body weight (g)",
-       y = "tibia length (mm)")
+p2 <- qplot(pheno$Weight.Diss,
+            pheno$Tibia.Length)
 print(p2)
 ```
 
-Explore the covariate data in R (part 2)
-========================================
+> Instructor notes: tibia length and body weight appear to be
+> correlated by looking at the plot. How can we quantify this in R?
 
-The authors also recommend using sex as a covariate in the association
-analysis:
+Examine tibia length vs. sex
+============================
+
+The study authors also recommend using sex as a covariate in the
+association analysis:
 
 ```{r summarize-sex}
 pheno <- transform(pheno,Sex = factor(Sex))
