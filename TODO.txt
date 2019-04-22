@@ -1,9 +1,13 @@
 to do
 =====
 
-+ Update Beamer template.
-
 + Send email to workshop participants.
+
++ Add email.txt to repository.
+
++ Revise introductory slides.
+
++ Revise preliminary slides.
 
 + Remove this file from the repository.
 

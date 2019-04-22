@@ -3,38 +3,60 @@ title: "Analysis of Genetic Data 2: Mapping Genome-Wide Associations"
 author: Peter Carbonetto
 output:
   beamer_presentation:
-    template: beamer.tex
+    template: docs/beamer.tex
     keep_tex: false
+    fig_caption: false
+    pandoc_args: "--highlight-style=pygments"
 ---
 
 ```{r knitr-options, echo=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
-                      results = "hide", fig.show = "hide", message = FALSE,
-		      warning = FALSE)
+                      results = "hide",fig.show = "hide",message = FALSE,
+		              warning = FALSE)
 ```
 
-Aims of workshop
-================
+Workshop aims
+=============
 
 1. Implement the basic steps of a genome-wide association analysis.
 
-2. Understand how phenotype and genotype data from a genome-wide
+2. Understand how phenotype and genotype data for a genome-wide
 association study (GWAS) are encoded in computer files.
 
-3. Understand some of the benefits (and complications!) of using
+3. Understand some of the benefits (and complications) of using
 linear-mixed models (LMMs) for GWAS.
 
-3. Use command-line tools to view and manipulate the phenotype and
+4. Use command-line tools to inspect and manipulate phenotype and
 genotype data.
 
-4. Learn through "live coding"---this includes learning from our
-mistakes!
+Workshop aims
+=============
+
++ This is a *hands-on workshop*---you will get the most out of this
+  workshop if you work through the exercises on your computer.
+
++ All the examples are intended to run on your laptop or on the RCC
+  cluster.
+
++ *Note: the examples may not produce the exact same result on your
+  laptop.*
+
+Software we will use today
+==========================
+
+1. GEMMA
+
+2. R
+
+3. Several R packages: stringr, data.table, ggplot2 and cowplot.
+
+4. Basic shell commands such as "cat" and "wc".
 
 Our research task
 =================
 
-Our goal is identify and interpret genetic loci contributing to tibia
-bone development in mice.
+Identify and interpret genetic loci contributing to tibia bone
+development in mice.
 
 1. We will use data from this study:
 
@@ -42,72 +64,53 @@ bone development in mice.
       complex traits in outbred mice by ultra-low-coverage
       sequencing." *Nature Genetics* **48:** 912--918.
 
-2. To map tibia development genes, we will assess support for
-statistical association between tibia length (given sex and body
-weight) and 353,697 SNP genotypes. Specifically, we will compute
-*p*-values to quantify support for association.
+2. To map tibia development genes, we will assess support (*p*-values)
+for statistical association between tibia length and 353,697 SNP
+genotypes.
 
-3. We will visualize the "association signal" to identify candidate
+3. We will visualize the association signal to identify candidate
 genes for tibia bone development.
 
-3. We will see that <10% of the effort is running GEMMA; *we will spend
-most of our time preparing the data for GEMMA, and examining the GEMMA
-output in R.*
-
-Some background on the study
-============================
+Background on study
+===================
 
 + Mice are from an outbred population called "Carworth Farms White"
 (CFW).
 
 + 200 measurements (e.g., blood concentrations, muscle weights) were
-recorded in columns of a large table. We will analyze one
-column: tibia length.
+taken for each mouse.
 
-+ Genotypes were obtained from *low-coverage* DNA sequencing (low
-coverage to save money). Therefore, genotype data is lower quality.
++ Genotypes were obtained from low-coverage DNA sequencing.
 
-+ Scale of data is comparable to human GWAS: 2,000 samples and
++ Size of data is comparable to human GWAS: 2,000 samples,
 350,000 SNPs.
 
-+ Linkage disequilibrium (LD) decays faster than many other mouse
-populations, but not as rapidly as humans, so mapping resolution will
-not be as good as human GWAS.
++ Linkage disequilibrium (LD) does not decay as rapidly as humans, so
+mapping resolution will not be as good as human GWAS.
 
-+ One advantage over human GWAS: **data are publicly available.**
++ Unlike most human GWAS, data are publicly available.
 
-It's your choice
-================
-
-Your may choose to...
-
-+ Work through the examples on the RCC cluster.
-
-+ Work through the examples on your laptop.
-
-+ Pair up with your neighbour.
-
-+ Follow what I do on the projector.
-
-*However*,
-
-1. A few of the examples will only run on the RCC cluster.
-
-2. The examples may not produce the exact same result on your laptop.
-
-Software tools we will use today
-================================
-
-1. GEMMA
-
-2. R
-
-3. R packages `stringr`, `data.table`, `ggplot2` and `cowplot`.
-
-4. Basic shell commands such as `wc` and `cat`.
+> Instructor notes: We will see that <10% of the effort is running
+GEMMA; *we will spend most of our time preparing the data for GEMMA,
+and examining the GEMMA output in R.*
 
 Outline of workshop
 ===================
+
++ **Preliminaries**
+
++ Programming challenges:
+
+    1. Setting up your environment for genetic data analysis.
+
+    2. Downloading and preparing genotype data for PCA.
+
+    3. Run PCA on genotype data.
+
+    4. Visualize and interpret PCA results.
+
+Old outline
+===========
 
 1. Initial setup.
 
