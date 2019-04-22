@@ -5,6 +5,9 @@ to do
 
 + Add email.txt to repository.
 
++ Figure out roughly how much storage will be required to run t he
+  examples, and add this info to the slides.
+
 + Revise preliminary slides.
 
 + Remove this file from the repository.

@@ -97,9 +97,9 @@ Outline of workshop
 
 + Programming challenges:
 
-    1. Setting up your environment for GWAS.
+    1. Setting up your environment for an association analysis.
 
-    2. Preparing the data for GWAS.
+    2. Preparing the data for an association analysis.
 
     3. Running a basic association analysis in GEMMA.
 
@@ -157,9 +157,9 @@ Outline of workshop
 
 + Programming challenges:
 
-    1. **Setting up your environment for GWAS.**
+    1. **Setting up your environment for an association analysis.**
 
-    2. Preparing the data for GWAS.
+    2. Preparing the data for an association analysis.
 
     3. Running a basic association analysis in GEMMA.
 
@@ -370,9 +370,9 @@ Outline of workshop
 
 + Programming challenges:
 
-    1. Setting up your environment for GWAS.
+    1. Setting up your environment for an association analysis.
 
-    2. **Preparing the data for GWAS.**
+    2. **Preparing the data for an association analysis.**
 
     3. Running a basic association analysis in GEMMA.
 
@@ -413,8 +413,8 @@ This will take a few minutes to run.
 > Instructor notes: What do the numeric values in file
 > "chr01.geno.txt" represent?
 
-Prepare the genotype data for GEMMA (part 2)
-============================================
+Prepare the genotype data for GEMMA
+===================================
 
 The genotype data need to be combined into one file. This can be
 easily done with the `cat` command, which combines by lines (rows):
@@ -611,129 +611,112 @@ write.table(data.frame(1,sex,pheno$Weight.Diss),
 Preparing the phenotype data: take-home points
 ==============================================
 
-Most association analyses will involve these steps:
+Most analyses will involve:
 
-1. Carefully checking phenotype and covariate data for possible
-   issues, and resolving these issues (e.g., filtering out problematic
-   data, transforming phenotypes).
++ Carefully checking phenotype and covariate data for possible
+  issues, and resolving these issues (e.g., filtering out problematic
+  samples, transforming phenotypes).
 
-2. Aligning phenotypes to genotypes.
-
-3. Reformatting the data.
++ Reformatting the data.
 
 In this tutorial, we performed these steps in R.
 
 Preparing the genotype data: take-home points
 =============================================
 
-+ Typically this is much more work---*we were fortunate that the
-authors provided the post-processing, post-QC (quality control)
-genotype data.*
++ Typically, this is much more work (fortunately, the authors provided
+  the processed genotype data).
 
-+ A **critical step** in this script was to make sure that the samples
-in the genotype and phenotype files are listed in the same order. *A
-common mistake is to save the phenotype and genotype samples in
-different orders, which will lead to an incorrect association
-analysis!*
-
-+ Why is the PLINK file format helpful for preventing such errors?
++ A common mistake is to save the phenotype and genotype samples in
+  different orders, which will lead to an incorrect association
+  analysis!
 
 Outline of workshop
 ===================
 
-1. Initial setup.
++ Preliminaries
 
-2. Download genotype data.
++ Programming challenges:
 
-3. Prepare phenotype data.
+    1. Setting up your environment for an association analysis.
 
-4. Prepare genotype data.
+    2. Preparing the data for an association analysis.
 
-5. **Run a basic association analysis in GEMMA, and assess quality of
-results.**
+    3. **Running a basic association analysis in GEMMA.**
 
-6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial analysis.
+    4. Running an LMM-based association analysis in GEMMA.
 
-7. Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.
+    5. Visualizing and interpreting the results of the association
+       analysis.
 
-Basic association analysis in GEMMA (part 1)
-============================================
+Basic association analysis in GEMMA
+===================================
 
 Now that we have installed GEMMA, and we have prepared the phenotype
 and genotype data in the formats accepted by GEMMA, we are now ready
 to run our first association analysis. 
 
 ```{bash gemma-lm, eval=FALSE}
-cd data
-../bin/gemma -p pheno.txt -c covariates.txt \
-  -a map.txt -g geno.txt -notsnp -lm 2 \
-  -outdir ../output -o tibia
+./gemma -p pheno.txt -c covar.txt \
+  -a map.txt -g geno.txt -notsnp \
+  -lm 2 -outdir . -o tibia
 ```
 
 This should take no more than a few minutes to complete.
 
-+ The `-notsnp` option is included here to prevent any automatic
-processing of the genotype data.
+> Instructor notes: The `-notsnp` option is included here to prevent
+> any automatic processing of the genotype data.
 
-Basic association analysis in GEMMA (part 2)
-============================================
+Basic association analysis in GEMMA
+===================================
 
-This GEMMA command creates two files:
+This GEMMA call creates two files:
 
 + **tibia.log.txt:** A brief summary of the association analysis.
 
 + **tibia.assoc.txt:** The full table of association results
   (*p*-values, effect size estimates, *etc*).
 
-Use `less -S`, or your favourite text editor, to inspect these files.
-
 Outline of workshop
 ===================
 
-1. Initial setup.
++ Preliminaries
 
-2. Download genotype data.
++ Programming challenges:
 
-3. Prepare phenotype data.
+    1. Setting up your environment for an association analysis.
 
-4. Prepare genotype data.
+    2. Preparing the data for an association analysis.
 
-5. Run a basic association analysis in GEMMA, and assess quality of
-results.
+    3. Running a basic association analysis in GEMMA.
 
-6. **Run an LMM-based association analysis in GEMMA, and compare against
-the initial analysis.**
+    4. **Running an LMM-based association analysis in GEMMA.**
 
-7. Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.
+    5. Visualizing and interpreting the results of the association
+       analysis.
 
-LMM association analysis in GEMMA
-=================================
+LMM-based association analysis in GEMMA
+=======================================
 
-First, generate a "realized relatedness" matrix from the (centered)
-genotypes. This may take 10--15 minutes.
+First, compute a "realized relatedness" matrix from the genotypes.
 
 ```{bash gemma-kinship, eval=FALSE}
-cd data
-../bin/gemma -p pheno.txt -g geno.txt \
-  -a map.txt -gk 1 -outdir ../output \
-  -o tibia
+./gemma -p pheno.txt -g geno.txt \
+  -a map.txt -gk 1 -outdir . -o tibia
 ```
 
-Next, fit an LMM separately for each SNP:
+Next, compute LMM-based association statistics for each SNP:
 
 ```{bash gemma-lmm, eval=FALSE}
-../bin/gemma -p pheno.txt -c covariates.txt \
+./gemma -p pheno.txt -c covar.txt \
   -a map.txt -g geno.txt -notsnp \
-  -k ../output/tibia.cXX.txt \
-  -lmm 2 -outdir ../output -o tibia-lmm
+  -k tibia.cXX.txt -lmm 2 -outdir . \
+  -o tibia-lmm
 ```
 
-These two steps may take an hour or longer combined, *so I have
-provided a compressed file in the* `output` *directory containing the
-result of this command. To use this file, run
+These steps may take an hour or more to complete, so I have provided
+files containing the results of these two GEMMA commands. To use these
+files, run:
 
 ```{bash, eval=FALSE}
 gunzip tibia-lmm.assoc.txt.gz
