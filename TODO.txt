@@ -1,7 +1,7 @@
 to do
 =====
 
-+ Update README.
++ Update Beamer template.
 
 + Send email to workshop participants.
 
@@ -14,4 +14,3 @@ to do
 + Run final "make test".
 
 + Print out slides for workshop.
-
