@@ -1,5 +1,0 @@
-All downloaded programs ("executables") used in your processing and
-data analysis steps should be copied here. Typically these executables
-should not be committed to the git repository---and if you do commit
-them, you have to be careful to abide by terms of the software
-licenses.
