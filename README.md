@@ -31,8 +31,23 @@ they have administrative privileges on.
 
 ## Notes on data files
 
-*Add notes here.*
++ `CFW_measures.txt` contains measurements of 200 phenotypes collected
+  from 2,117 CFW mice. These data accompany the Nature Genetics paper,
+  "Genome-wide association of multiple complex traits in outbred mice
+  by ultra-low-coverage sequencing," by Nicod et al. This file was
+  downloaded from https://wp.cs.ucl.ac.uk/outbredmice.
 
++ `CFW_covariates.txt` contains covariate data (e.g., sex, age, batch)
+  recorded for 2,117 CFW mice. This file was downloaded from the same
+  source as `CFW_measures.txt`.
+
+* `list_of_1934_mice_used_for_analysis.txt` gives the ids of the 1,934
+  mice retained for the genome-wide association analyses in Nicod et
+  al (2016). This list was obtained from file
+  `List_of_1934_mice_used_for_analysis.RData` downloaded from
+  http://mtweb.cs.ucl.ac.uk/dosages. The ids were adjusted to match
+  the ids in the phenotype table.
+  
 ## Other information
 
 + This workshop attempts to apply elements of the [Software Carpentry

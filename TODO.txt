@@ -5,13 +5,7 @@ to do
 
 + Add email.txt to repository.
 
-+ Revise preliminary slides.
-
 + Remove this file from the repository.
-
-+ Set up workshop reservation.
-
-+ Add notes on data files to README.
 
 + Fill out "What's included" slide.
 
