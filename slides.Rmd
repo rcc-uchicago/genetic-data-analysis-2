@@ -35,11 +35,11 @@ Workshop aims
 + This is a *hands-on workshop*---you will get the most out of this
   workshop if you work through the exercises on your computer.
 
-+ All the examples are intended to run on your laptop or on the RCC
-  cluster.
++ The examples are intended to run either on the RCC cluster or on
+  your laptop.
 
 + *Note: the examples may not produce the exact same result on your
-  laptop.*
+  laptop. Using the RCC cluster is most recommended.*
 
 Software we will use today
 ==========================
@@ -74,11 +74,11 @@ genes for tibia bone development.
 Background on study
 ===================
 
-+ Mice are from an outbred population called "Carworth Farms White"
++ Samples are from an outbred mouse population, "Carworth Farms White"
 (CFW).
 
-+ 200 measurements (e.g., blood concentrations, muscle weights) were
-taken for each mouse.
++ 200 measurements (blood concentrations, muscle weights, and so on)
+were taken for each mouse.
 
 + Genotypes were obtained from low-coverage DNA sequencing.
 
@@ -86,12 +86,9 @@ taken for each mouse.
 350,000 SNPs.
 
 + Linkage disequilibrium (LD) does not decay as rapidly as humans, so
-mapping resolution will not be as good as human GWAS.
+mapping resolution will not be as good as a human GWAS.
 
-+ Unlike most human GWAS, data are publicly available.
-
-GEMMA; *we will spend most of our time preparing the data for GEMMA,
-and examining the GEMMA output in R.*
++ Data are publicly available, unlike most human studies, 
 
 Outline of workshop
 ===================
@@ -148,8 +145,9 @@ the initial association analysis.
 7. Visualize the genome-wide association signal in R to (a) map tibia
 loci and (b) identify plausible tibia genes.
 
-Initial setup (part 1)
-======================
+
+Preliminaries
+=============
 
 + WiFi
 
