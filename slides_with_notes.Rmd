@@ -389,20 +389,55 @@ Challenge #2: Prepare the data for GWAS
 
 + Steps:
 
-    1. Import phenotype and covariate data into R.
+    1. Prepare genotype data for GEMMA.
 
-    2. Explore phenotype and covariate data in R.
+    2. Import phenotype and covariate data into R.
 
-    3. Save phenotype and covariate data for GEMMA.
+    3. Explore phenotype and covariate data in R.
 
-    4. Prepare genotype data for GEMMA.
+    4. Save phenotype and covariate data for GEMMA.
+
+Prepare the genotype data for GEMMA
+===================================
+
+Processing the genotype data is more complicated, so I have provided
+an R script to create, for each chromosome, a SNP annotation file and
+a genotype file in the format used by GEMMA. Run the script in R:
+
+```{bash convert-genotypes, eval=FALSE}
+Rscript format.genotypes.for.gemma.R
+```
+
+This will take a few minutes to run.
+
+> Instructor notes: What do the numeric values in file
+> "chr01.geno.txt" represent?
+
+Prepare the genotype data for GEMMA (part 2)
+============================================
+
+The genotype data need to be combined into one file. This can be
+easily done with the `cat` command, which combines by lines (rows):
+
+```{bash merge-genotype-data, eval=FALSE}
+cat chr*.geno.txt > geno.txt
+```
+
+We do the same for the SNP annotations:
+
+```{bash merge-snp-data, eval=FALSE}
+cat chr*.map.txt > map.txt
+```
+
+> Instructor notes: A natural question to ask is why didn't we combine
+> the genotypes inside the R script.
 
 Import phenotypes and covariates into R
 =======================================
 
 Start up R. On midway2, run:
 
-```{bash, eval=FALSE}
+```{bash start-R-2, eval=FALSE}
 R --no-save
 ```
 
@@ -572,44 +607,6 @@ write.table(data.frame(1,sex,pheno$Weight.Diss),
 
 > Instructor notes: Why do we add a column of ones to the covariates
 > file?
-
-Prepare the genotype data for GEMMA
-===================================
-
-Processing the genotype data is more complicated, so I have provided
-an R script to create, for each chromosome, a SNP annotation file and
-a genotype file in the format used by GEMMA. Run the script in R:
-
-```{r write-genotype-data, eval=FALSE}
-source("format.genotypes.for.gemma.R")
-```
-
-This will take a few minutes to run. Once it is done, quit R.
-
-> Instructor nodes: What do the numeric values in file
-> "chr01.geno.txt" *represent?
-
-Prepare the genotype data for GEMMA (part 2)
-============================================
-
-The genotype data need to be combined into one file. This can be
-easily done with the `cat` command, which combines by lines (rows):
-
-```{bash merge-genotype-data, eval=FALSE}
-cat chr*.geno.txt > geno.txt
-head geno.txt | less -S
-tail geno.txt | less -S
-wc -l geno.txt
-```
-
-We do the same for the SNP annotations:
-
-```{bash merge-snp-data, eval=FALSE}
-cat chr*.map.txt > map.txt
-wc -l map.txt
-```
-
-*Why didn't we combine the genotypes inside the R script?*
 
 Preparing the phenotype data: take-home points
 ==============================================
