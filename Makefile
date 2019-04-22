@@ -7,9 +7,9 @@
 #   a lot of the R code.
 #
 # * Optionally, type "make handout" to generate a PDF document that
-#   can be used as a handout to distribute to workshop
-#   participants. For improved layout, I recommend setting the YAML
-#   header in slides.Rmd to
+#   can be used as a handout to distribute to workshop participants,
+#   or as an instructor aid. For improved layout, I recommend setting
+#   the YAML header in slides.Rmd to
 # 
 #     ---
 #     title: "Analysis of Genetic Data 2: Mapping Genome-wide Associations"
@@ -32,22 +32,30 @@ test: slides_test.pdf
 
 handout: handout.pdf
 
-# Generate the slides while also testing the R code.
-slides_test.pdf : ../code/slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = TRUE); rmarkdown::render("../code/slides.Rmd",output_file = "slides_test.pdf")'
-	mv -f ../code/slides_test.pdf ./slides_test.pdf
+slides_with_notes.Rmd : docs/slides_with_notes.Rmd
+	cp docs/slides_with_notes.Rmd slides_with_notes.Rmd
+
+slides.Rmd : slides_with_notes.Rmd
+	grep -v '^>' slides_with_notes.Rmd > slides.Rmd
 
 # Create the slides.
-slides.pdf : ../code/slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("../code/slides.Rmd")'
-	mv -f ../code/slides.pdf ./slides.pdf
+slides.pdf : slides.Rmd
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("slides.Rmd")'
+
+# Create the slides with the instructor's notes.
+slides_with_notes.pdf : slides_with_notes.Rmd
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("slides_with_notes.Rmd",output_format = "pdf_document")'
+
+# Generate the slides while also testing the R code.
+slides_test.pdf : slides.Rmd
+	Rscript -e 'knitr::opts_chunk$$set(eval = TRUE); rmarkdown::render("slides.Rmd",output_file = "slides_test.pdf")'
 
 # Create the handout.
-handout.pdf : ../code/slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("../code/slides.Rmd",output_format = "pdf_document",output_file = "handout.pdf")'
-	mv -f ../code/handout.pdf ./handout.pdf
+handout.pdf : slides.Rmd
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("slides.Rmd",output_format = "pdf_document",output_file = "handout.pdf")'
 
 clean:
-	rm -f slides.tex slides.pdf slides_test.pdf handout.pdf
+	rm -f slides.pdf slides_test.pdf handout.pdf
+	rm -f slides_with_notes.Rmd rm -f slides_with_notes.pdf
 
 

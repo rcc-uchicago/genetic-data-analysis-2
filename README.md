@@ -29,10 +29,14 @@ available in class to those with no RCC account. All participants must
 bring a laptop with a Mac, Linux, or Windows operating system that
 they have administrative privileges on.
 
+## Notes on data files
+
+*Add notes here.*
+
 ## Other information
 
 + This workshop attempts to apply elements of the [Software Carpentry
-approach][swcarpentry].  See also [this article][swc-paper].  Please also
+approach][swcarpentry]. See also [this article][swc-paper].  Please also
 take a look at the [Code of Conduct](conduct.md), and the [license
 information](LICENSE.md).
 
@@ -41,8 +45,6 @@ slides.pdf` in the [docs](docs) directory. For this to work, you will
 need to to install the [rmarkdown][rmarkdown] package in R, as well as
 the packages used in [slides.Rmd](slides.Rmd). For more details,
 see the [Makefile](Makefile).
-
-+ See also the [instructor notes](NOTES.md).
 
 ## Credits
 

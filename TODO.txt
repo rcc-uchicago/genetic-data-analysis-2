@@ -9,6 +9,9 @@ to do
 
 + Set up workshop reservation.
 
++ Add notes on data files to README.
+
 + Run final "make test".
 
 + Print out slides for workshop.
+
