@@ -144,8 +144,17 @@ What's included in the workshop packet
 
 + **slides.Rmd:** R Markdown source used to create these slides.
 
++ **download_genotypes.sh:** Script that can be used to download the
+  genotype data.
+
++ **functions.R**: Some R functions used to load the data and create
+  plots.
+
++ **format.genotypes.for.gemma.R:** Script to convert genotype data
+  into a format suitable for GEMMA.
+
 + **CFW_measures.txt:** a large table with 200 columns (phenotypes)
-  and 2,117 rows (sampels).
+  and 2,117 rows (samples).
 
 + **CFW_covariates.txt:** covariate data for 2,117 CFW mice.
 

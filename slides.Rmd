@@ -142,8 +142,17 @@ What's included in the workshop packet
 
 + **slides.Rmd:** R Markdown source used to create these slides.
 
++ **download_genotypes.sh:** Script that can be used to download the
+  genotype data.
+
++ **functions.R**: Some R functions used to load the data and create
+  plots.
+
++ **format.genotypes.for.gemma.R:** Script to convert genotype data
+  into a format suitable for GEMMA.
+
 + **CFW_measures.txt:** a large table with 200 columns (phenotypes)
-  and 2,117 rows (sampels).
+  and 2,117 rows (samples).
 
 + **CFW_covariates.txt:** covariate data for 2,117 CFW mice.
 
@@ -678,15 +687,14 @@ Outline of workshop
 LMM-based association analysis in GEMMA
 =======================================
 
-First, generate a "realized relatedness" matrix from the genotypes.
-This may take 10--15 minutes.
+First, compute a "realized relatedness" matrix from the genotypes.
 
 ```{bash gemma-kinship, eval=FALSE}
 ./gemma -p pheno.txt -g geno.txt \
   -a map.txt -gk 1 -outdir . -o tibia
 ```
 
-Next, fit an LMM separately for each SNP:
+Next, compute LMM-based association statistics for each SNP:
 
 ```{bash gemma-lmm, eval=FALSE}
 ./gemma -p pheno.txt -c covar.txt \
@@ -695,7 +703,7 @@ Next, fit an LMM separately for each SNP:
   -o tibia-lmm
 ```
 
-These steps may take over an hour to complete, so I have provided
+These steps may take an hour or more to complete, so I have provided
 files containing the results of these two GEMMA commands. To use these
 files, run:
 
