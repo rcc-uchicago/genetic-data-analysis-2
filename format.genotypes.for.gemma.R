@@ -16,7 +16,7 @@ library(stringr)
 
 # Load the list of 1,934 samples that were used in Nicod et al,
 # 2016. 
-ids <- read.table("../data/listof1934miceusedforanalysis.txt",
+ids <- read.table("listof1934miceusedforanalysis.txt",
                   stringsAsFactors = FALSE)[[1]]
 
 # Repeat for each autosomal chromosome.
@@ -25,7 +25,7 @@ for (i in 1:19) {
 
   # Load the genotype data from the .RData file.
   cat(" - Loading genotype data from .RData file.\n")
-  input.file <- sprintf("../data/chr%d.prunedgen.final.maf001.0.98.RData",i)
+  input.file <- sprintf("chr%d.prunedgen.final.maf001.0.98.RData",i)
   load(input.file)
 
   # Write the marker positions in a space-delimited text file with one
@@ -34,7 +34,7 @@ for (i in 1:19) {
   # manual for more information about this file. Here, since the SNP
   # id is not provided, we enter a dummy id of the form snp-X-Y, where
   # X is the chromosome and Y is the base-pair position.
-  map.file <- sprintf("../data/chr%02d.map.txt",i)
+  map.file <- sprintf("chr%02d.map.txt",i)
   cat(" - Writing marker positions to",map.file,"\n")
   pruned_pos$CHR <- i
   pruned_pos     <- transform(pruned_pos,ID = paste("snp",CHR,POS,sep = "-"))
@@ -62,7 +62,7 @@ for (i in 1:19) {
   # ALTERNATIVE allele (to be certain, we would have to contact the
   # authors to make sure, or see if this information is given
   # somewhere in the paper).
-  geno.file <- sprintf("../data/chr%02d.geno.txt",i)
+  geno.file <- sprintf("chr%02d.geno.txt",i)
   cat(" - Writing genotype data to",geno.file,"\n")
   pruned_dosages <- 2 * pruned_dosages
   pruned_dosages <- as.data.frame(pruned_dosages,check.names = FALSE)

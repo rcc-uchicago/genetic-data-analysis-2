@@ -580,7 +580,7 @@ Processing the genotype data is more complicated, so I have provided
 an R script to create, for each chromosome, a SNP annotation file and
 a genotype file in the format used by GEMMA. Run the script in R:
 
-```{r write-genotype-data, eval=FALSE}
+```{r write-genotype-data}
 source("format.genotypes.for.gemma.R")
 ```
 
