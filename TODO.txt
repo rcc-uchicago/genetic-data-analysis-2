@@ -1,10 +1,6 @@
 to do
 =====
 
-+ Send email to workshop participants.
-
-+ Add email.txt to repository.
-
 + Figure out roughly how much storage will be required to run the
   examples, and add this info to the slides.
 
