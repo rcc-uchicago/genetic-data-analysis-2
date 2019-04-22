@@ -36,10 +36,10 @@ Workshop aims
   workshop if you work through the exercises on your computer.
 
 + The examples are intended to run either on the RCC cluster or on
-  your laptop.
+  a laptop with Linux or macOS (not Windows)
 
 + *Note: the examples may not produce the exact same result on your
-  laptop. Using the RCC cluster is most recommended.*
+  laptop. Using the RCC cluster is recommended.*
 
 Software we will use today
 ==========================
@@ -77,8 +77,8 @@ Background on study
 + Samples are from an outbred mouse population, "Carworth Farms White"
 (CFW).
 
-+ 200 measurements (blood concentrations, muscle weights, and so on)
-were taken for each mouse.
++ 200 measurements (blood concentrations, muscle weights, *etc*) were
+taken for each mouse.
 
 + Genotypes were obtained from low-coverage DNA sequencing.
 
@@ -88,7 +88,7 @@ were taken for each mouse.
 + Linkage disequilibrium (LD) does not decay as rapidly as humans, so
 mapping resolution will not be as good as a human GWAS.
 
-+ Data are publicly available, unlike most human studies, 
++ Data are publicly available, unlike most human studies.
 
 Outline of workshop
 ===================
@@ -97,264 +97,292 @@ Outline of workshop
 
 + Programming challenges:
 
-    1. Setting up your environment for genetic data analysis.
+    1. Setting up your environment for GWAS.
 
-    2. Downloading and preparing genotype data for PCA.
+    2. Preparing the data for GWAS.
 
-    3. Run PCA on genotype data.
+    3. Running a basic association analysis in GEMMA.
 
-    4. Visualize and interpret PCA results.
+    4. Running an LMM-based association analysis in GEMMA.
 
-Old outline
-===========
-
-1. Initial setup.
-
-2. Download genotype data.
-
-3. Prepare phenotype data.
-
-4. Prepare genotype data.
-
-5. Run a basic association analysis in GEMMA, and assess quality of
-results.
-
-6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial analysis.
-
-7. Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.
-
-Outline of workshop
-===================
-
-1. **Initial setup.**
-
-2. Download genotype data.
-
-3. Prepare phenotype data.
-
-4. Prepare genotype data.
-
-5. Run a basic association analysis in GEMMA, and assess quality of
-results.
-
-6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial association analysis.
-
-7. Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.
-
+    5. Visualizing and interpreting the results of the association
+       analysis.
+	
 
 Preliminaries
 =============
 
-+ WiFi
++ WiFi.
 
-+ Power outlets
++ Power outlets.
 
-+ YubiKeys
++ Reading what I type.
 
 + Pace, questions (e.g., keyboard shortcuts).
 
-Initial setup (part 2)
-======================
++ YubiKeys.
 
-Download the workshop packet to your laptop.
++ What to do if you get stuck.
 
-+ URL: https://github.com/rcc-uchicago/genetic-data-analysis-2
+Preliminaries
+=============
 
-+ Open **slides.pdf** from the **docs** folder. This is useful for
-viewing and copying the code from the slides.
++ The workshop packet is a repository on GitHub. Go to:
 
-+ We may also look at some of the files in the **code** folder. The
-code can be viewed with your favourite text editor, or browsed
-on GitHub.
+    - github.com/rcc-uchicago/genetic-data-analysis-2
 
-Initial setup (part 3)
-======================
++ Download the workshop packet to your computer.
 
-If you are using the RCC cluster, set up your cluster computing
-environment:
++ If necessary, rename the folder to "genetic-data-analysis-2".
 
-1. Connect to midway2.
+What's included in the workshop packet
+======================================
 
-    + See https://rcc.uchicago.edu/docs/connecting.
++ **slides.pdf:** These slides.
 
-    + If you are using ThinLinc, use the "clipboard" to copy & paste.
-    
-2. Request a midway2 ("Broadwell") compute node with 4 CPUs and 8 GB
-of memory:
-
-    ```
-    sinteractive --partition=broadwl --mem=8G \
-      --cpus-per-task=4 --time=3:00:00
-    ```
-
-Initial setup (part 4)
-======================
-
-If you are using the RCC cluster, **also** download the workshop
-packet to your home directory on the cluster.
-
-* URL: https://github.com/rcc-uchicago/genetic-data-analysis-2
-
-You can run these commands to download the workshop packet:
-
-```{bash download-repo, eval=FALSE}
-cd ~
-git clone https://github.com/rcc-uchicago/
-  genetic-data-analysis-2.git
-```
-
-Initial setup (part 5)
-======================
-
-Let's start up R and make sure you can display graphics from R. On the
-RCC cluster, load R, then start up an interactive R environment:
-
-```{bash, eval=FALSE}
-module load R
-R --no-save
-```
-
-Check which version of R you are running (hopefully version 3.4.0 or
-greater):
-
-```{r check-r-version}
-version$version.string
-```
-
-Here is a simple test plot:
-
-```{r plot-cars}
-plot(cars$dist,cars$speed)
-```
-
-You should see a scatterplot. If not, you should start a fresh R
-session in a new midway2 connection (**ThinLinc is the most reliable
-approach**). *Note:* run `q()` at any time to exit R.
-
-What's in the workshop packet
-=============================
-
-```
-genetic-data-analysis-2
-  /bin     # All executables are stored here.
-  /code    # Source code used in analyses.
-  /data    # Raw and processed data.
-  /docs    # Additional workshop materials.
-  /output  # All results are stored here.
-```
-
-Outline of workshop
-===================
-
-1. Initial setup.
-
-2. **Download genotype data.**
-
-3. Prepare phenotype data.
-
-4. Prepare genotype data.
-
-5. Run a basic association analysis in GEMMA, and assess quality of
-results.
-
-6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial association analysis.
-
-7. Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.
-
-Download data (part 1)
-======================
-
-The genotype files are too large to fit in the git repository. So we
-need to download them separately.
-
-+ URL: http://mtweb.cs.ucl.ac.uk/dosages
-
-+ Download files for chromosomes 1--19 into the `data` folder.
-
-+ You may find it easier to run the bash script provided in the `data`
-  folder:
-
-    ```
-	cd data
-    bash download_genotypes.sh
-    ```
-
-    This script requires the `wget` program.
-
-*Note:* If you downloaded the genotype files before the workshop,
-please move these files into the `data` folder.
-
-Download data (part 2)
-======================
-
-After following these steps, the contents of your `data` directory
-should look like this:
-
-```
-$ cd data
-$ ls -1
-README
-CFW_covariates.txt
-CFW_measures.txt
-download_genotypes.sh
-chr1.prunedgen.final.maf001.0.98.RData
-chr2.prunedgen.final.maf001.0.98.RData
-...
-chr19.prunedgen.final.maf001.0.98.RData
-```
-
-The data we will use in our analyses
-====================================
++ **slides.Rmd:** R Markdown source used to create these slides.
 
 + **CFW_measures.txt:** a large table with 200 columns (phenotypes)
-  and 2,117 rows (CFW mice).
+  and 2,117 rows (sampels).
 
 + **CFW_covariates.txt:** covariate data for 2,117 CFW mice.
 
 + **listof1934miceusedforanalysis.txt:** ids of the 1,934 mice
   used in the final analyses of Nicod *et al* (2016).
 
-+ **chr\*.prunedgen.final.maf001.0.98.RData:** genotypes for SNPs on
-  chromosomes 1--19 used in the final analysis of Nicod *et al* (2016).
+Outline of workshop
+===================
 
-See the `README` in the `data` folder for more details.
++ Programming challenges:
+
+    1. **Setting up your environment for GWAS.**
+
+    2. Preparing the data for GWAS.
+
+    3. Running a basic association analysis in GEMMA.
+
+    4. Running an LMM-based association analysis in GEMMA.
+
+    5. Visualizing and interpreting the results of the association
+       analysis.
+
+Challenge #1: Setting up your environment for GWAS
+==================================================
+
++ Aim: Configure your computing environment for the next programming
+  challenges.
+
++ Steps:
+
+    1. Connect to midway2.*
+
+    2. Clone git repository.*
+
+    3. Download genotype data.
+
+    4. Download GEMMA.
+
+    3. Connect to a midway2 compute node.*
+
+    4. Launch R, and check your R environment.
+
+    5. Set up R for plotting.
+
+Connect to midway2
+==================
+
++ **If you have an RCC account:** I'm assuming you already know how to
+  connect to midway2. *ThinLinc is recommended if you do not know how
+  activate X11 forwarding in SSH.*
+
+    + See: rcc.uchicago.edu/docs/connecting
+
++ **If you do not have an RCC account:** I can provide you with a
+  Yubikey. This will give you guest access to the RCC cluster (see the
+  next slide).
+
+Using the Yubikeys
+==================
+
++ Prerequisites:
+
+    1. SSH client (for Windows, please use **MobaXterm**)
+
+    2. USB-A port
+
++ Steps:
+
+    1. Insert Yubikey into USB port.
+
+    2. Note your userid: `rccguestXXXX`, where `XXXX` is the
+       last four digits shown on Yubikey.
+
+    3. Follow instructions to connect to midway2 via SSH, replacing
+       the cnetid with your `rccguestXXXX` user name:
+       rcc.uchicago.edu/docs/connecting
+
+    4. When prompted for password, press lightly on metal disc.
+
++ Important notes:
+
+    - Yubikeys do not work with ThinLinc.
+
+    - *Please return the Yubikey at the end of the workshop.*
+
+Clone git repository
+====================
+
+Clone the workshop packet in your home directory on midway2 (**note:**
+there are no spaces in the URL below):
+
+```{bash download-packet, eval=FALSE}
+cd $HOME
+git clone https://github.com/rcc-uchicago/
+  genetic-data-analysis-2.git
+cd genetic-data-analysis-2
+```
+
+Download genotype data
+======================
+
+The genotype data are too large to fit in the git repository. So we
+need to download these data separately.
+
++ Go to: http://mtweb.cs.ucl.ac.uk/dosages
+
++ Download files for chromosomes 1--19.
+
++ You may find it easier to run the provided bash script:
+
+    ```{bash download-genotypes, eval=FALSE}
+    bash download_genotypes.sh
+    ```
+
+    This script requires "wget".
+
++ After following these steps, you should have a total of 19 files
+  with extension ".RData" in the "genetic-data-analysis-2" folder.
+
+Download GEMMA
+==============
+
+Download GEMMA 0.96. Go to:
+
++ https://github.com/genetics-statistics/GEMMA/releases/tag/v0.96
+
+On midway2, you can run these commands to download and install GEMMA
+0.96 for Linux:
+
+```{bash get-gemma, eval=FALSE}
+wget http://bit.ly/2I67fBV -O gemma.linux.gz
+gunzip gemma.linux.gz
+mv gemma.linux gemma
+chmod 700 gemma
+./gemma -h
+```
+
+Connect to a midway2 compute node
+=================================
+
+Set up an interactive session on a midway2 compute node with 4 CPUs
+and 10 GB of memory:
+
+```{bash connect-midway2, eval=FALSE}
+screen -S workshop
+sinteractive --partition=broadwl \
+  --reservation=workshop --cpus-per-task=4 \
+  --mem=10G --time=3:00:00
+echo $HOSTNAME
+```
+
+Launch R
+========
+
+Start up an interactive R session. On midway2, you can start up R with
+these commands:
+
+```{bash start-R, eval=FALSE}
+module load R/3.5.1
+which R
+R --no-save
+```
+
+*Note: You may use RStudio instead of R.*
+
+Check your R environment
+========================
+
+Check the version of R you are running:
+
+```{r check-version}
+sessionInfo()
+```
+
+Check that you are starting with an empty environment:
+
+```{r check-environment}
+ls()
+```
+
+Check that you have the correct working directory---it should be set
+to the "genetic-data-analysis-2" repository:
+
+```{r check-wd}
+getwd()
+```
+
+
+Set up R for plotting
+=====================
+
+Make sure you can display graphics in your current R session.
+
+```{r plot-cars}
+library(ggplot2)
+library(cowplot)
+data(cars)
+quickplot(cars$dist,cars$speed)
+```
+
+You should see a scatterplot. If not, your connection is not set up to
+display graphics. On midway2, an alternative is to save the plot to a
+file, and download the file to your computer using sftp or SAMBA. See:
+
++ rcc.uchicago.edu/docs/data-transfer
+
+Quit R
+======
+
+We will quit R, and return to it later.
+
+```{r quit, eval=FALSE}
+quit()
+```
 
 Outline of workshop
 ===================
 
-1. Initial setup.
++ Preliminaries
 
-2. Download genotype data.
++ Programming challenges:
 
-3. **Prepare phenotype data.**
+    1. Setting up your environment for GWAS.
 
-4. Prepare genotype data.
+    2. **Preparing the data for GWAS.**
 
-5. Run a basic association analysis in GEMMA, and assess quality of
-results.
+    3. Running a basic association analysis in GEMMA.
 
-6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial association analysis.
+    4. Running an LMM-based association analysis in GEMMA.
 
-7. Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.
+    5. Visualizing and interpreting the results of the association
+       analysis.
 
-Outline of phenotype data preparation
-=====================================
+Challenge #2: Prepare the data for GWAS
+=======================================
 
-1. Examine phenotype and covariate data from the terminal.
++ Aim:
 
-2. Examine phenotype and covariate data in R.
-
-3. Verify phenotype residuals.
-
-4. Format phenotype and covariate data for GEMMA.
++ Steps:
 
 Explore the phenotype data from the terminal
 ============================================
@@ -386,7 +414,7 @@ R --no-save
 
 Before continuing, check your working directory:
 
-```{r check-wd}
+```{r check-wd-2}
 getwd()  # Should be .../code
 ```
 
@@ -536,8 +564,7 @@ ready to save the data in a format usable by GEMMA. First write the
 phenotype data to `pheno.txt`:
 
 ```{r write-phenotype-data}
-write.table(pheno$Tibia.Length,
-            "../data/pheno.txt",
+write.table(pheno$Tibia.Length,"pheno.txt",
             row.names = FALSE,
 			col.names = FALSE)
 ```
@@ -557,21 +584,6 @@ write.table(data.frame(1,sex,pheno$Weight.Diss),
 
 Also, a column of ones is needed for an intercept in the GEMMA
 regression analysis.
-
-Preparing the phenotype data: take-home points
-==============================================
-
-Most association analyses will involve these steps:
-
-1. Carefully checking phenotype and covariate data for possible
-   issues, and resolving these issues (e.g., filtering out problematic
-   data, transforming phenotypes).
-
-2. Aligning phenotypes to genotypes.
-
-3. Reformatting the data.
-
-In this tutorial, we performed these steps in R.
 
 Outline of workshop
 ===================
@@ -639,6 +651,21 @@ wc -l map.txt
 
 *Why didn't we combine the genotypes inside the R script?*
 
+Preparing the phenotype data: take-home points
+==============================================
+
+Most association analyses will involve these steps:
+
+1. Carefully checking phenotype and covariate data for possible
+   issues, and resolving these issues (e.g., filtering out problematic
+   data, transforming phenotypes).
+
+2. Aligning phenotypes to genotypes.
+
+3. Reformatting the data.
+
+In this tutorial, we performed these steps in R.
+
 Preparing the genotype data: take-home points
 =============================================
 
@@ -673,25 +700,6 @@ the initial analysis.
 
 7. Visualize the genome-wide association signal in R to (a) map tibia
 loci and (b) identify plausible tibia genes.
-
-Set up GEMMA
-============
-
-Download GEMMA 0.96 to the `bin` folder.
-
-+ URL: https://github.com/genetics-statistics/GEMMA/releases
-
-On the RCC cluster, you can run these commands to install the GEMMA
-0.96 Linux binary, and check that it works:
-
-```{bash get-gemma, eval=FALSE}
-cd bin
-wget http://bit.ly/2I67fBV -O gemma.linux.gz
-gunzip gemma.linux.gz
-mv gemma.linux gemma
-chmod 700 gemma # So you can run it.
-./gemma
-```
 
 Basic association analysis in GEMMA (part 1)
 ============================================
