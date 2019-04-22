@@ -1,0 +1,16 @@
+to do
+=====
+
++ Get the list of workshop participants.
+
++ Send email to workshop participants.
+
++ Remove this file from the repository.
+
++ Get Yubikeys.
+
++ Set up workshop reservation.
+
++ Run final "make test".
+
++ Print out slides for workshop.
