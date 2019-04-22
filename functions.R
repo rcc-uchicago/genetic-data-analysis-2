@@ -4,54 +4,6 @@ read.pheno <- function (file)
   read.table(file,sep = "\t",quote = "",stringsAsFactors = FALSE,
              header = TRUE,check.names = FALSE)
 
-# Compare the empirical quantiles of x against the expected values
-# under the normal distribution.
-check.normal.quantiles <- function (x) {
-
-  # Discard the missing values.
-  x <- x[!is.na(x)]
-    
-  # Transform the observations so that they have zero mean and unit
-  # variance.
-  x <- (x - mean(x))/sqrt(var(x))
-  
-  # Create a data frame giving the observed and expected proportion of
-  # samples within 1, 2 and 3 standard deviations of the mean.
-  return(data.frame(exp = c(pnorm(1) - pnorm(-1),
-                            pnorm(2) - pnorm(-2),
-                            pnorm(3) - pnorm(-3)),
-                    obs = c(mean(-1 < x & x < 1),
-                            mean(-2 < x & x < 2),
-                            mean(-3 < x & x < 3)),
-                    row.names = c("sd1","sd2","sd3")))
-}
-
-# Draw a box plot to visualize the relationship between a categorical
-# variable x and a continuous variable y.
-draw.boxplot <- function (x, y)
-  ggplot(data.frame(x = x,y = y),aes(x = x,y = y)) +
-  geom_boxplot(width = 0.5,na.rm = TRUE) +
-  theme(axis.line = element_blank())
-
-# Draw a quantile-quantile plot comparing the empirical quantiles
-# against quantiles expected under the standard normal distribution.
-draw.qqplot <- function (x) {
-
-  # Discard the missing values.
-  x <- x[!is.na(x)]
-    
-  # Transform the observations so that they have zero mean and unit
-  # variance.
-  x <- (x - mean(x))/sqrt(var(x))
-
-  # Create the quantile-quantile plot using ggplot2.
-  return(ggplot(data.frame(x = x),aes(sample = x)) +
-         geom_abline(intercept = 0,slope = 1,color = "magenta") +
-         geom_qq(color = "darkblue") +
-         labs(x = "normal quantiles",y = "empirical quantiles") +
-         theme(axis.line = element_blank()))
-}
-
 # Create a "genomic inflation" plot---simply, the observed negative
 # log10 p-values against the expected p-values under the null
 # distribution.

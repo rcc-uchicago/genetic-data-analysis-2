@@ -471,7 +471,8 @@ Plot the distribution of tibia length:
 library(ggplot2)
 library(cowplot)
 p1 <- ggplot(pheno,aes(Tibia.Length)) +
-      geom_histogram(fill = "darkblue")
+  geom_histogram(fill = "darkblue",
+                 na.rm = TRUE)
 print(p1)
 ```
 
@@ -479,7 +480,7 @@ Examine tibia length vs. body weight
 ====================================
 
 The study authors recommend using body weight as a covariate in the
-association analysis (units are "g"):
+association analysis (units are "g"). What do the data tell us?
 
 ```{r summarize-body-weight}
 summary(pheno$Weight.Diss)
@@ -489,7 +490,8 @@ Visualize the relationship between tibia length and body weight:
 
 ```{r plot-tibia-vs-weight}
 p2 <- qplot(pheno$Weight.Diss,
-            pheno$Tibia.Length)
+            pheno$Tibia.Length,
+            na.rm = TRUE)
 print(p2)
 ```
 
@@ -500,7 +502,7 @@ Examine tibia length vs. sex
 ============================
 
 The study authors also recommend using sex as a covariate in the
-association analysis:
+association analysis. Let's examine the data:
 
 ```{r summarize-sex}
 pheno <- transform(pheno,Sex = factor(Sex))
@@ -512,14 +514,13 @@ between a continuous variable (tibia length) and a categorical
 variable (sex):
 
 ```{r plot-tibia-vs-sex}
-p3 <- draw.boxplot(pheno$Sex,
-                   pheno$Tibia.Length) +
-  labs(x = "sex",y = "tibia length (mm)")
+p3 <- ggplot(pheno,aes(Sex,Tibia.Length)) +
+      geom_boxplot(na.rm = TRUE)
 print(p3)
 ```
 
-Verify the phenotype residuals
-==============================
+Verify phenotype residuals
+==========================
 
 Compute the phenotypes after removing the linear effects of sex and
 body weight:
@@ -532,23 +533,19 @@ r   <- resid(fit)
 Plot the distribution of the residuals:
 
 ```{r plot-residuals}
-plot.dist(r) + labs(x = "residuals")
+p4 <- ggplot(data.frame(resid = r),aes(resid)) +
+      geom_histogram(color = "darkblue")
 ```
 
-*Optional exercise:* Assess the fit of the normal distribution using
- these commands:
-
-```{r check-residuals}
-check.normal.quantiles(r)
-draw.qqplot(r)
-```
+> Instructor notes: How could you assess a fit to normal distribution
+> more rigorously?
 
 Save phenotype data for GEMMA
 =============================
 
-Now that we have explored and verified the phenotype data, we are
-ready to save the data in a format usable by GEMMA. First write the
-phenotype data to `pheno.txt`:
+Now that we have carefully examined the phenotype data, we are ready
+to save the data in a format usable by GEMMA. First write the tibia
+measurements to a new file, "pheno.txt":
 
 ```{r write-phenotype-data}
 write.table(pheno$Tibia.Length,"pheno.txt",
@@ -556,65 +553,41 @@ write.table(pheno$Tibia.Length,"pheno.txt",
 			col.names = FALSE)
 ```
 
+> Instructor notes: Point out that GEMMA allows missing values (NA).
+
 Save covariate data for GEMMA
 =============================
 
-Write the covariate data to file `covariates.txt` in the format used
-by GEMMA. We need to first convert sex to a numeric value:
+Next, write the covariates (body weight and sex) to new file,
+"covar.txt", in the format used by GEMMA. Sex needs to be encoded as a
+number:
 
 ```{r write-covariate-data}
-sex <- as.numeric(pheno$Sex) - 1 # Now 0 or 1.
+sex <- as.numeric(pheno$Sex) - 1
 write.table(data.frame(1,sex,pheno$Weight.Diss),
-            "../data/covariates.txt",sep = " ",
-			row.names = FALSE,col.names = FALSE)
+            "covar.txt",sep = " ",
+            row.names = FALSE,
+            col.names = FALSE)
 ```
 
-Also, a column of ones is needed for an intercept in the GEMMA
-regression analysis.
+> Instructor notes: Why do we add a column of ones to the covariates
+> file?
 
-Outline of workshop
-===================
+Prepare the genotype data for GEMMA
+===================================
 
-1. Initial setup.
-
-2. Download genotype data.
-
-3. Prepare phenotype data.
-
-4. **Prepare genotype data.**
-
-5. Run a basic association analysis in GEMMA, and assess quality of
-results.
-
-6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial association analysis.
-
-7. Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.
-
-Prepare the genotype data for GEMMA (part 1)
-============================================
-
-Processing the genotype data is more complicated, so I have provided a
-script to create, for each chromosome, a SNP annotation file and a
-genotype file in the BIMBAM format. Run this script in R:
+Processing the genotype data is more complicated, so I have provided
+an R script to create, for each chromosome, a SNP annotation file and
+a genotype file in the format used by GEMMA. Run the script in R:
 
 ```{r write-genotype-data, eval=FALSE}
 source("format.genotypes.for.gemma.R")
 ```
 
-+ This will take a few minutes to run. Once it is done, exit R.
+This will take a few minutes to run. Once it is done, quit R.
 
-Let's look at the GEMMA files:
-
-```{bash inspect-gemma-files, eval=FALSE}
-less chr01.map.txt
-wc -l chr01.map.txt
-less -S chr01.geno.txt
-wc -l chr01.geno.txt
-```
-
-*What do the numeric values in* `chr01.geno.txt` *represent?*
+> Instructor nodes: What do the numeric values in file
+> "chr01.geno.txt" *represent?
 
 Prepare the genotype data for GEMMA (part 2)
 ============================================
