@@ -634,8 +634,8 @@ Outline of workshop
     4. Visualizing and interpreting the results of an association
        analysis.
 
-Run association analyses in GEMMA
-=================================
+Challenge #3: Run association analyses
+======================================
 
 + Aim: Compute *p*-values to assess support for association between
   tibia length and SNPs on chromosomes 1--19.
@@ -792,10 +792,11 @@ Outline of workshop
     4. **Visualizing and interpreting the results of an association
        analysis.**
 
-Visualize and interpret association analysis results
-====================================================
+Challenge #4: Visualize and interpret results of association analysis
+=====================================================================
 
-+ Aim:
++ Aim: Create plots to gain insight into the results of the
+  association analysis.
 
 + Steps:
 
