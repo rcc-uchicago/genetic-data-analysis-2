@@ -20,7 +20,8 @@ plot.inflation <- function (x, size = 2) {
   return(ggplot(data.frame(x = -log10((1:n)/n),y = y),aes(x = x,y = y)) +
          geom_abline(intercept = 0,slope = 1,color = "magenta") +
          geom_point(color = "dodgerblue",shape = 20,size = 2) +
-         labs(x = "Expected -log10 p-value",y = "Observed -log10 p-value") +
+         labs(x = "Expected -log10 p-value",
+              y = "Observed -log10 p-value") +
          theme(axis.line = element_blank()))
 }
 

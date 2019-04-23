@@ -7,4 +7,6 @@ to do
 
 + Run final "make test" on midway2 and on laptop.
 
++ Review slides one last time.
+
 + Print out slides for workshop.

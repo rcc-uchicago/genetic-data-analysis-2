@@ -36,7 +36,9 @@ Workshop aims
   workshop if you work through the exercises on your computer.
 
 + The examples are intended to run either on the RCC cluster or on
-  a laptop with Linux or macOS (not Windows)
+  a laptop with Linux or macOS (not Windows).
+
++ About 15 GB will be needed to store all t he the data and output files.
 
 + *Note: the examples may not produce the exact same result on your
   laptop. Using the RCC cluster is recommended.*
@@ -700,108 +702,110 @@ Next, compute LMM-based association statistics for each SNP:
 ./gemma -p pheno.txt -c covar.txt \
   -a map.txt -g geno.txt -notsnp \
   -k tibia.cXX.txt -lmm 2 -outdir . \
-  -o tibia-lmm
+  -o tibia_lmm
 ```
 
-These steps may take an hour or more to complete, so I have provided
-files containing the results of these two GEMMA commands. To use these
-files, run:
+LMM-based association analysis in GEMMA
+=======================================
 
-```{bash, eval=FALSE}
-gunzip tibia-lmm.assoc.txt.gz
+Since this may take an hour or more to complete, I have provided
+files containing the results of these two GEMMA commands:
+
+```
+tibia.cXX.txt.gz
+tibia_lmm.assoc.txt.gz
+tibia_lmm.log.txt
 ```
 
-*Optional:* Compare "genomic inflation" (part 1)
-================================================
+To use the previously computed GEMMA results, first use gunzip to
+uncompress them:
+
+```{bash gemma-lmm-gunzip, eval=FALSE}
+gunzip tibia.assoc.txt.gz
+gunzip tibia_lmm.assoc.txt.gz
+```
+
+Compare basic and LMM association analyses
+==========================================
 
 The LMM is expected to reduce inflation of small *p*-values; a high
 level of inflation could indicate many *false positive* associations
-(e.g., due to populations tructure or "hidden" relatedness). *Here we
-will check that the LMM does this.*
+(e.g., due to populations tructure or "hidden" relatedness).
 
-+ The q-q plot is commonly used to assess inflation. This test has
-many well-known problems, but is nonetheless useful as a simple
-diagnostic.
++ The q-q plot is commonly used to assess inflation. This test is
+  useful as a simple diagnostic.
 
-Start up R again, and use `read.table` to load the results of the
-GEMMA association analysis:
+Launch R again, and import the results of the first GEMMA association
+analysis:
 
 ```{r load-gemma-pvalues}
-getwd() # Should be .../code
-gwscan <- read.table("../output/tibia.assoc.txt",
-                     as.is = "rs",header = TRUE)
-head(gwscan)
-nrow(gwscan)
+gwscan1 <- read.table("tibia.assoc.txt",
+                      as.is = "rs",header = TRUE)
 ```
 
-*Optional:* Compare "genomic inflation" (part 2)
-================================================
+Compare basic and LMM association analyses
+==========================================
 
 Plot the observed *p*-values against the expected *p*-values under the
 null distribution:
 
-```{r plot-inflation}
+```{r plot-inflation-basic}
 library(ggplot2)
-library(cowplot) # Optional.
+library(cowplot)
 source("functions.R")
-plot.inflation(gwscan$p_lrt)
+p1 <- plot.inflation(gwscan1$p_lrt)
+print(p1)
 ```
 
 Next, we will compare this plot against the LMM q-q plot.
 
-  + At this point, I recommend taking a screenshot of this plot
-  before continuing.
 
-*Optional:* Compare "genomic inflation" (part 3)
-================================================
+Compare basic and LMM association analyses
+==========================================
 
 Follow the same steps as before to load the GEMMA results and create a
 genomic inflation plot:
 
-```{r plot-gemma-lmm-pvalues}
-gwscan <-
-  read.table("../output/tibia-lmm.assoc.txt",
-             as.is = "rs",header = TRUE)
-plot.inflation(gwscan$p_lrt)
+```{r plot-inflation-lmm}
+gwscan2 <- read.table("tibia_lmm.assoc.txt",
+                      as.is = "rs",header = TRUE)
+p2 <- plot.inflation(gwscan2$p_lrt)
+print(p2)
 ```
 
-Compare against the previous inflation plot---*did the LMM reduce
-inflation of p-values?*
+Compare against the previous inflation plot.
 
-Association analysis: take-home points
-======================================
+
+LMM-based ssociation analysis: take-home points
+===============================================
 
 + LMMs are now one of the most widely used approaches to reduce
-inflation of false positive associations due to population structure
-and hidden relatedness.
+  inflation of false positive associations due to population structure
+  and hidden relatedness.
 
-+ However, LMMs can be computationally intensive, especially for data
-sets with many samples.
++ LMMs can be computationally intensive, especially for data
+  sets with many samples.
 
-+ Another issue: LMMs can *overcorrect* inflation---this is
-particularly a problem in mouse GWAS due to long-range LD
-patterns. One solution is a "leave-one-chromosome-out" strategy (this
-strategy was used in the Nicod *et al* paper).
++ LMMs can *overcorrect* inflation. One solution is the
+  "leave-one-chromosome-out" (LOCO) approach.
 
 Outline of workshop
 ===================
 
-1. Initial setup.
++ Preliminaries
 
-2. Download genotype data.
++ Programming challenges:
 
-3. Prepare phenotype data.
+    1. Setting up your environment for an association analysis.
 
-4. Prepare genotype data.
+    2. Preparing the data for an association analysis.
 
-5. Run a basic association analysis in GEMMA, and assess quality of
-results.
+    3. Running a basic association analysis in GEMMA.
 
-6. Run an LMM-based association analysis in GEMMA, and compare against
-the initial analysis.
+    4. Running an LMM-based association analysis in GEMMA.
 
-7. **Visualize the genome-wide association signal in R to (a) map tibia
-loci and (b) identify plausible tibia genes.**
+    5. **Visualizing and interpreting the results of the association
+       analysis.**
 
 Visualizing the association signal
 ==================================
@@ -826,7 +830,7 @@ association analysis:
 ```{r load-gemma-lmm-pvalues}
 getwd() # Should be .../code
 gwscan <-
-  read.table("../output/tibia-lmm.assoc.txt",
+  read.table("../output/tibia_lmm.assoc.txt",
              as.is = "rs",header = TRUE)
 head(gwscan)
 nrow(gwscan)
