@@ -1,0 +1,30 @@
+##
+## GEMMA Version = 0.96
+##
+## Command Line Input = ./gemma -p pheno.txt -c covar.txt -a map.txt -g geno.txt -notsnp -k tibia.cXX.txt -lmm 2 -outdir . -o tibia-lmm 
+##
+## Date = Mon Apr 22 17:14:26 2019
+##
+## Summary Statistics:
+## number of total individuals = 1934
+## number of analyzed individuals = 1712
+## number of covariates = 3
+## number of phenotypes = 1
+## number of total SNPs = 353697
+## number of analyzed SNPs = 353697
+## REMLE log-likelihood in the null model = -800.334
+## MLE log-likelihood in the null model = -800.074
+## pve estimate in the null model = 0.344136
+## se(pve) in the null model = 0.0360976
+## vg estimate in the null model = 0.227194
+## ve estimate in the null model = 0.109511
+## beta estimate in the null model =   17.7127  0.0384163  0.0314971
+## se(beta) =   0.0633294  0.0219584  0.00181497
+##
+## Computation Time:
+## total computation time = 48.7875 min 
+## computation time break down: 
+##      time on eigen-decomposition = 0.0308333 min 
+##      time on calculating UtX = 3.36333 min 
+##      time on optimization = 40.954 min 
+##

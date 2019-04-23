@@ -1,0 +1,20 @@
+##
+## GEMMA Version = 0.96
+##
+## Command Line Input = ./gemma -p pheno.txt -g geno.txt -a map.txt -gk 1 -outdir . -o tibia 
+##
+## Date = Mon Apr 22 16:18:33 2019
+##
+## Summary Statistics:
+## number of total individuals = 1934
+## number of analyzed individuals = 1723
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs = 353697
+## number of analyzed SNPs = 351854
+##
+## Computation Time:
+## total computation time = 8.3645 min 
+## computation time break down: 
+##      time on calculating relatedness matrix = 6.34933 min 
+##
