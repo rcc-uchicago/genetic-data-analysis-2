@@ -828,7 +828,7 @@ Challenge #4: Visualize and interpret results of association analysis
 
     3. Based on the association signal, identify candidate genes.
 
-    4. *Optional:* Visualize the relationship between tibia length and the
+    4. Visualize the relationship between tibia length and the
        top SNP association.
 
 Plot genome-wide scan for tibia length
