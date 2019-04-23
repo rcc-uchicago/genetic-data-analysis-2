@@ -36,7 +36,9 @@ Workshop aims
   workshop if you work through the exercises on your computer.
 
 + The examples are intended to run either on the RCC cluster or on
-  a laptop with Linux or macOS (not Windows)
+  a laptop with Linux or macOS (not Windows).
+
++ About 15 GB will be needed to store all t he the data and output files.
 
 + *Note: the examples may not produce the exact same result on your
   laptop. Using the RCC cluster is recommended.*

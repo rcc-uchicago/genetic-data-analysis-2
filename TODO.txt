@@ -1,12 +1,7 @@
 to do
 =====
 
-+ Figure out roughly how much storage will be required to run the
-  examples, and add this info to the slides.
-
 + Remove this file (TODO.txt) from the repository.
-
-+ Add GEMMA results files to "What's included" slide.
 
 + Spell-check slides.
 
