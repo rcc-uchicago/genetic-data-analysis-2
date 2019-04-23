@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
 Workshop aims
 =============
 
-1. Implement the basic steps of a genome-wide association analysis.
+1. Implement basic steps of a genome-wide association analysis.
 
 2. Understand how phenotype and genotype data for a genome-wide
 association study (GWAS) are encoded in computer files.
@@ -50,7 +50,7 @@ Software we will use today
 
 2. R
 
-3. Several R packages: stringr, data.table, ggplot2 and cowplot.
+3. Several R packages: data.table, ggplot2, cowplot and stringr.
 
 4. Basic shell commands such as "cat" and "wc".
 
@@ -90,7 +90,7 @@ taken for each mouse.
 + Linkage disequilibrium (LD) does not decay as rapidly as humans, so
 mapping resolution will not be as good as a human GWAS.
 
-+ Data are publicly available, unlike most human studies.
++ Data are publicly available (unlike most human studies).
 
 Outline of workshop
 ===================
@@ -103,11 +103,9 @@ Outline of workshop
 
     2. Preparing the data for an association analysis.
 
-    3. Running a basic association analysis in GEMMA.
+    3. Running association analyses in GEMMA.
 
-    4. Running an LMM-based association analysis in GEMMA.
-
-    5. Visualizing and interpreting the results of the association
+    4. Visualizing and interpreting the results of an association
        analysis.
 	
 
@@ -144,10 +142,9 @@ What's included in the workshop packet
 
 + **slides.Rmd:** R Markdown source used to create these slides.
 
-+ **download_genotypes.sh:** Script that can be used to download the
-  genotype data.
++ **download_genotypes.sh:** Script for downloading the genotype data.
 
-+ **functions.R**: Some R functions used to load the data and create
++ **functions.R**: Some R functions for loading the data and creating
   plots.
 
 + **format.genotypes.for.gemma.R:** Script to convert genotype data
@@ -159,7 +156,7 @@ What's included in the workshop packet
 + **CFW_covariates.txt:** covariate data for 2,117 CFW mice.
 
 + **listof1934miceusedforanalysis.txt:** ids of the 1,934 mice
-  used in the final analyses of Nicod *et al* (2016).
+  used in the analyses of Nicod *et al* (2016).
 
 Outline of workshop
 ===================
@@ -170,11 +167,9 @@ Outline of workshop
 
     2. Preparing the data for an association analysis.
 
-    3. Running a basic association analysis in GEMMA.
+    3. Running association analyses in GEMMA.
 
-    4. Running an LMM-based association analysis in GEMMA.
-
-    5. Visualizing and interpreting the results of the association
+    4. Visualizing and interpreting the results of an association
        analysis.
 
 Challenge #1: Setting up your environment for GWAS
@@ -318,7 +313,7 @@ which R
 R --no-save
 ```
 
-*Note: You may use RStudio instead of R.*
+*Note: You can use R or RStudio.*
 
 Check your R environment
 ========================
@@ -381,11 +376,9 @@ Outline of workshop
 
     2. **Preparing the data for an association analysis.**
 
-    3. Running a basic association analysis in GEMMA.
+    3. Running association analyses in GEMMA.
 
-    4. Running an LMM-based association analysis in GEMMA.
-
-    5. Visualizing and interpreting the results of the association
+    4. Visualizing and interpreting the results of an association
        analysis.
 
 Challenge #2: Prepare the data for GWAS
@@ -493,8 +486,8 @@ pheno <- pheno[rows,]
 Examine tibia length
 ====================
 
-Take a closer look at the data for the main phenotype of interest
----tibia length (units are "mm"):
+Take a closer look at the data for the phenotype of interest, tibia
+length (units are "mm"):
 
 ```{r summarize-tibia-length}
 summary(pheno$Tibia.Length)
@@ -515,7 +508,8 @@ Examine tibia length vs. body weight
 ====================================
 
 The study authors recommend using body weight as a covariate in the
-association analysis (units are "g"). What do the data tell us?
+association analysis (units are "g"). What do the data tell us about
+the relationship between the two?
 
 ```{r summarize-body-weight}
 summary(pheno$Weight.Diss)
@@ -542,9 +536,8 @@ pheno <- transform(pheno,Sex = factor(Sex))
 summary(pheno$Sex)
 ```
 
-A boxplot is the most common w ay to visualize the relationship
-between a continuous variable (tibia length) and a categorical
-variable (sex):
+A boxplot is a common way to visualize the relationship between a
+continuous variable (tibia length) and a categorical variable (sex):
 
 ```{r plot-tibia-vs-sex}
 p3 <- ggplot(pheno,aes(Sex,Tibia.Length)) +
@@ -635,12 +628,24 @@ Outline of workshop
 
     2. Preparing the data for an association analysis.
 
-    3. **Running a basic association analysis in GEMMA.**
+    3. **Running association analyses in GEMMA.**
 
-    4. Running an LMM-based association analysis in GEMMA.
-
-    5. Visualizing and interpreting the results of the association
+    4. Visualizing and interpreting the results of an association
        analysis.
+
+Run association analyses in GEMMA
+=================================
+
++ Aim: Compute *p*-values to assess support for association between
+  tibia length and SNPs on chromosomes 1--19.
+
++ Steps:
+
+    1. Run a basic association analysis in GEMMA.
+
+    2. Run an LMM-based association analysis in GEMMA.
+
+    3. Compare the two association analyses.
 
 Basic association analysis in GEMMA
 ===================================
@@ -663,33 +668,16 @@ Basic association analysis in GEMMA
 
 This GEMMA call creates two files:
 
-+ **tibia.log.txt:** A brief summary of the association analysis.
++ **tibia.log.txt:** A summary of the association analysis.
 
 + **tibia.assoc.txt:** The full table of association results
   (*p*-values, effect size estimates, *etc*).
 
-Outline of workshop
-===================
-
-+ Preliminaries
-
-+ Programming challenges:
-
-    1. Setting up your environment for an association analysis.
-
-    2. Preparing the data for an association analysis.
-
-    3. Running a basic association analysis in GEMMA.
-
-    4. **Running an LMM-based association analysis in GEMMA.**
-
-    5. Visualizing and interpreting the results of the association
-       analysis.
-
 LMM-based association analysis in GEMMA
 =======================================
 
-First, compute a "realized relatedness" matrix from the genotypes.
+First, compute a kinship ("realized relatedness") matrix from the
+genotypes.
 
 ```{bash gemma-kinship, eval=FALSE}
 ./gemma -p pheno.txt -g geno.txt \
@@ -709,16 +697,15 @@ LMM-based association analysis in GEMMA
 =======================================
 
 Since this may take an hour or more to complete, I have provided
-files containing the results of these two GEMMA commands:
+files containing the outputs of these two GEMMA commands:
 
-```
-tibia.cXX.txt.gz
-tibia_lmm.assoc.txt.gz
-tibia_lmm.log.txt
-```
++ **tibia.cXX.txt.gz:** The 1,934 x 1,934 kinship matrix.
 
-To use the previously computed GEMMA results, first use gunzip to
-uncompress them:
++ **tibia_lmm.log.txt:** A summary of the association analysis.
+
++ **tibia_lmm.assoc.txt.gz:** The full table of association results.
+
+To use these files, you need to uncompress them first:
 
 ```{bash gemma-lmm-gunzip, eval=FALSE}
 gunzip tibia.assoc.txt.gz
@@ -729,11 +716,10 @@ Compare basic and LMM association analyses
 ==========================================
 
 The LMM is expected to reduce inflation of small *p*-values; a high
-level of inflation could indicate many *false positive* associations
-(e.g., due to populations tructure or "hidden" relatedness).
+level of inflation could indicate many false positive associations.
 
 + The q-q plot is commonly used to assess inflation. This test is
-  useful as a simple diagnostic.
+  useful as a simple, heuristic diagnostic.
 
 Launch R again, and import the results of the first GEMMA association
 analysis:
@@ -786,7 +772,7 @@ LMM-based ssociation analysis: take-home points
 + LMMs can be computationally intensive, especially for data
   sets with many samples.
 
-+ LMMs can *overcorrect* inflation. One solution is the
++ LMMs can *overcorrect* inflation. One remedy is the
   "leave-one-chromosome-out" (LOCO) approach.
 
 Outline of workshop
@@ -800,27 +786,29 @@ Outline of workshop
 
     2. Preparing the data for an association analysis.
 
-    3. Running a basic association analysis in GEMMA.
+    3. Running association analyses in GEMMA.
 
-    4. Running an LMM-based association analysis in GEMMA.
-
-    5. **Visualizing and interpreting the results of the association
+    4. **Visualizing and interpreting the results of an association
        analysis.**
 
-Visualizing the association signal
-==================================
+Visualize and interpret association analysis results
+====================================================
 
-1. Summarize the genome-wide association signal for tibia length.
++ Aim:
 
-2. Take a closer look at the strongest association signal.
++ Steps:
 
-3. Based on the association signal, identify candidate genes.
+    1. Summarize "genome-wide" association signal for tibia length.
 
-4. *Optional:* Visualize the relationship between tibia length and the
-top SNP association.
+    2. Visualize strongest association signal.
 
-Plot genome-wide scan for tibia length (part 1)
-===============================================
+    3. Based on the association signal, identify candidate genes.
+
+    4. *Optional:* Visualize the relationship between tibia length and the
+       top SNP association.
+
+Plot genome-wide scan for tibia length
+======================================
 
 Using GEMMA, we computed association *p*-values at 353,697 SNPs on
 chromosomes 1--19. Now let's plot these *p*-values to get a visual
@@ -828,164 +816,137 @@ summary of the association results. First, load the results of the LMM
 association analysis:
 
 ```{r load-gemma-lmm-pvalues}
-getwd() # Should be .../code
-gwscan <-
-  read.table("../output/tibia_lmm.assoc.txt",
-             as.is = "rs",header = TRUE)
-head(gwscan)
-nrow(gwscan)
+gwscan <- read.table("tibia_lmm.assoc.txt",
+                     as.is = "rs",header = TRUE)
 ```
 
-Plot genome-wide scan for tibia length (part 2)
-===============================================
+Plot genome-wide scan for tibia length
+======================================
 
 I wrote a function that uses `ggplot2` to create a "Manhattan plot"
 showing the results of the association analysis.
 
 ```{r plot-gwscan}
 library(ggplot2)
-library(cowplot) # Optional.
+library(cowplot)
 source("functions.R")
-plot.gwscan(gwscan)
+p1 <- plot.gwscan(gwscan)
+print(p1)
 ```
 
-+ *On which chromosomes do we observe the strongest association
-  signals?*
+This gives us a "genome-wide" view of the association signal.
 
-Examine the association signal on chr. 6 (part 1)
-=================================================
+Examine the association signal on chromosome 6
+==============================================
 
-Above, our plot gave us a *genome-wide* overview of the regions of the
-genome contributing to variation in BMD.
-
-+ Next, let’s try to get a finer-scale view of the strongest
-association signal on chromosome 6.
-
-Create a data frame with the chromsome 6 association results.
+Here we look more closely at the strongest association signal on
+chromosome 6. First, create a data frame with the results for
+chromosome 6 only:
 
 ```{r get-gwscan-chr6}
-gwscan.chr6 <- subset(gwscan,chr == 6)
+gwscan_chr6 <- subset(gwscan,chr == 6)
 ```
 
 Next, plot the *p*-values against the base-pair position of the SNPs.
 
 ```{r plot-pvalues-chr6}
-plot.region.pvalues(gwscan.chr6) +
-  scale_x_continuous(breaks = seq(0,200,10))
+p2 <- plot.region.pvalues(gwscan_chr6)
+print(p2)
 ```
 
-Examine the association signal on chr. 6 (part 2)
-=================================================
+Examine the association signal on chromosome 6
+==============================================
 
 It appears that the strongest association signal is isolated to
 positions of 145 Mb and greater. Let's zoom in on that region:
 
 ```{r plot-pvalues-chr6-locus}
-dat <- subset(gwscan.chr6,ps > 145e6)
-plot.region.pvalues(dat,size = 2) +
-  scale_x_continuous(breaks = seq(145,150,0.5))
+dat <- subset(gwscan_chr6,ps > 145e6)
+p3 <- plot.region.pvalues(dat)
+print(p3)
 ```
 
-Let's identify the SNP on chromosome 6 that is most strongly
+Let's find the SNP on chromosome 6 that is most strongly
 associated with tibia length:
 
 ```{r top-marker}
-i <- which.min(gwscan.chr6$p_lrt)
-gwscan.chr6[i,]
+i <- which.min(gwscan_chr6$p_lrt)
 ```
 
-Examine the association signal on chr. 6 (part 3)
-=================================================
 
-Based on the pattern of p-values, what would you propose as an
-approximate candidate region?
-
-+ *Exercise:* Use the UCSC Genome Browser (http://genome.ucsc.edu) to
-identify genes in or near the strongest association signal on
-chromosome 6 that may play a role in (tibia) bone development.
-
-    + You will need to use NCBI release 38 (mm10) of the mouse genome
-      assembly.
-
-*Optional:* Visualize genotype-phenotype relationship
-=====================================================
+Visualize genotype-phenotype relationship
+=========================================
 
 Above, we identified the SNP that is most strongly associated with
 tibia length.
 
-+ *Here, let's look closely at the relationship between tibia length
-and the genotype at the top SNP.*
++ Next, we examine the relationship between tibia length
+  and the genotype at this SNP.
 
 Load the GEMMA phenotype data:
 
 ```{r load-pheno-gemma}
-pheno <- read.table("../data/pheno.txt")[[1]]
+pheno <- read.table("pheno.txt")
+pheno <- pheno[[1]]
 ```
 
-Visualize genotype-phenotype relationship (part 2)
-==================================================
+Visualize genotype-phenotype relationship
+=========================================
 
-Load the GEMMA genotype data for chromosome 6, and select the
-genotypes for the top SNP. To obtain discrete genotype values (0, 1 or
-2), we round the numeric values to the nearest integer.
+Load the GEMMA genotype data for chromosome 6, and retrieve the
+genotypes for the top SNP. To obtain discrete genotype values (0, 1,
+2), round the numeric values to the nearest integer.
 
 ```{r load-geno-gemma}
 library(data.table)
-geno <- fread("../data/chr06.geno.txt",sep = " ",
-              stringsAsFactors = FALSE)
+geno <- fread("chr06.geno.txt",sep = " ")
 class(geno) <- "data.frame"
-geno        <- round(geno[i,-(1:3)])
+geno <- geno[,-(1:3)]
+geno <- round(geno)
 ```
 
-*Note:* We use `fread` from the `data.table` package because it is
-much, much faster than the base function `read.table`.
+Visualize genotype-phenotype relationship
+=========================================
 
-Visualize genotype-phenotype relationship (part 3)
-==================================================
-
-If we convert the genotype to a "factor" (*i.e.*, categorical
-variable), we can use the boxplot function we used earlier:
+If we convert the genotype to a "factor", we can visualize the
+relationship with a boxplot.
 
 ```{r geno-num2factor}
-geno         <- factor(geno,0:2)
-levels(geno) <- c("GG","AG","AA")
+geno_topsnp <- geno[i,]
+geno_topsnp <- factor(geno_topsnp,0:2)
+levels(geno_topsnp) <- c("GG","AG","AA")
 ```
 
-I looked carefully at the SNP information and found that A is the
-alternative allele, so 2 corresponds to genotype AA.
+A is the alternative allele, so a 2 corresponds to genotype "AA".
 
 ```{r plot-pheno-vs-geno}
-print(draw.boxplot(geno,pheno) +
-  labs(x = "genotype",y = "tibia length (mm)",
-       title = "chr. 6: 146,795,232 bp"))
+pdat <- data.frame(pheno = pheno,
+                   geno  = geno_topsnp)
+p <- ggplot(pdat,aes(geno,pheno)) +
+     geom_boxplot(na.rm = TRUE)
+print(p)
 ```
 
 This provides a visual summary of the genotype-phenotype relationship.
-We can also *quantify* the relationship with `lm`:
+We can also *quantify* the relationship:
 
 ```{r lm-pheno-vs-geno}
-fit <- lm(y ~ x,data.frame(x = geno,y = pheno))
+fit <- lm(y ~ x,data.frame(x = geno_topsnp,
+                           y = pheno))
 summary(fit)
 ```
 
-Observe that the "R-squared" (the effect size) is small. 
 
 Recap
 =====
 
-+ Today we implemented the basic steps of a genome-wide association
-analysis.
++ We implemented the basic steps of a GWAS using GEMMA, R and
+  command-line tools such as "cat".
 
-+ We saw that most of the effort was getting the data ready for
-GEMMA, and carefully inspecting the GEMMA results.
++ We saw that much of the effort went into data processing and quality
+  control.
 
-+ Did not discuss how to determine an appropriate significance
-threshold. This is a complicated question and beyond the scope of this
-workshop. **My advice:** first take an *exploratory approach* and
-identify the strongest association signals, then later assess
-significance.
-
-+ *Optional---but recommended---exercise:* Repeat the same data
-processing and analysis steps to map genetic loci for LDL
-concentrations in blood (units = mmol/L), using the `"Bioch.LDL"`
-column.
++ We did not discuss how to determine an appropriate significance
+  threshold. This is a complicated question. *My advice:* first take
+  an exploratory approach to identify the strongest association
+  signals, and determine significance later.
