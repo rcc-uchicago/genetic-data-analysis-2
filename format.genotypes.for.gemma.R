@@ -20,7 +20,7 @@ ids <- read.table("listof1934miceusedforanalysis.txt",
                   stringsAsFactors = FALSE)[[1]]
 
 # Repeat for each autosomal chromosome.
-for (i in 6) {
+for (i in 1:19) {
   cat(sprintf("chromosome %d\n",i))
 
   # Load the genotype data from the .RData file.
