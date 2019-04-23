@@ -1,0 +1,47 @@
+Subject: Please read for tomorrow's RCC workshop, "Analysis of Genetic
+Data, Part 2"
+
+Thank you for registering for the RCC workshop, "Analysis of Genetic
+Data 2: Mapping Genome-wide Associations." It is taking place tomorrow
+afternoon (Tuesday, April 23), 2–5p in the Zar Room, which is in the
+John Crerar Library.
+
+Here are a few notes about participating in the workshop.
+
+First, note that Part 1 is not a prerequisite for Part 2, so please
+come even if you were unable to attend Part 1.
+
+Second, if you cannot attend Part 2, please cancel your registration
+on the Eventbrite website. This will help me get a better sense of
+workshop size.
+
+This is a hands-on tutorial, so you will get the most benefit from the
+tutorial if you bring your laptop and work through the examples
+in-class. It is best if you use the RCC cluster for all the examples,
+although this is not required.
+
+If you have an RCC account, please make sure you are able to log in to
+midway2. Please refer to the instructions in the User Guide:
+https://rcc.uchicago.edu/docs/connecting
+
+If you do not have an RCC account, I can provide you with guest
+access. To use the guest account, your laptop will need: (1) a USB-A
+port, or that an adapter for USB-A—the newer USB ports are smaller
+than USB-A, so require an adapter; (2) an SSH client, preferrably
+MobaXterm (if you have macOS or Linux, you most likely already have
+SSH). For further details, go to
+https://rcc.uchicago.edu/docs/connecting.
+
+If you choose not to use the RCC cluster, you should have R or RStudio
+installed on your laptop, and the examples will require 8 GB of memory
+(RAM).
+
+At the beginning of the workshop, I will provide you with additional
+setup instructions.
+
+Thank you,
+
+Peter Carbonetto
+Computational Scientist, Statistics & Genetics,
+Research Computing Center & Dept. of Human Genetics
+University of Chicago
