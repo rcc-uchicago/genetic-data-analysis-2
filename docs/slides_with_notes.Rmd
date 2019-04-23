@@ -720,7 +720,7 @@ Next, compute LMM-based association statistics for each SNP:
 ./gemma -p pheno.txt -c covar.txt \
   -a map.txt -g geno.txt -notsnp \
   -k tibia.cXX.txt -lmm 2 -outdir . \
-  -o tibia-lmm
+  -o tibia_lmm
 ```
 
 These steps may take an hour or more to complete, so I have provided
@@ -728,7 +728,7 @@ files containing the results of these two GEMMA commands. To use these
 files, run:
 
 ```{bash, eval=FALSE}
-gunzip tibia-lmm.assoc.txt.gz
+gunzip tibia_lmm.assoc.txt.gz
 ```
 
 *Optional:* Compare "genomic inflation" (part 1)
@@ -780,7 +780,7 @@ genomic inflation plot:
 
 ```{r plot-gemma-lmm-pvalues}
 gwscan <-
-  read.table("../output/tibia-lmm.assoc.txt",
+  read.table("../output/tibia_lmm.assoc.txt",
              as.is = "rs",header = TRUE)
 plot.inflation(gwscan$p_lrt)
 ```
@@ -846,7 +846,7 @@ association analysis:
 ```{r load-gemma-lmm-pvalues}
 getwd() # Should be .../code
 gwscan <-
-  read.table("../output/tibia-lmm.assoc.txt",
+  read.table("../output/tibia_lmm.assoc.txt",
              as.is = "rs",header = TRUE)
 head(gwscan)
 nrow(gwscan)
