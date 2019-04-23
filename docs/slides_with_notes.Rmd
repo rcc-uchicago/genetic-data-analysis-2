@@ -483,7 +483,8 @@ sample ids:
 ```{r load-ids}
 ids <-
   read.table("listof1934miceusedforanalysis.txt",
-             stringsAsFactors = FALSE)[[1]]
+             stringsAsFactors = FALSE)
+ids <- ids[[1]]
 ```
 
 Next, select the rows of the phenotype table that match up with the
@@ -784,8 +785,8 @@ Compare against the previous inflation plot.
 
 > Instructor notes: Did the LMM reduce inflation of p-values?
 
-LMM-based ssociation analysis: take-home points
-===============================================
+LMM-based association analysis: take-home points
+================================================
 
 + LMMs are now one of the most widely used approaches to reduce
   inflation of false positive associations due to population structure
