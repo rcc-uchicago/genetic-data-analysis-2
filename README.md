@@ -67,9 +67,9 @@ These materials were developed by [Peter Carbonetto][peter] at the
 [University of Chicago][uchicago]. Thank you to [Matthew
 Stephens][matthew] for his support and guidance.
 
-[swcarpentry]; http://software-carpentry.org/lessons
+[swcarpentry]: http://software-carpentry.org/lessons
 [swc-paper]:   http://dx.doi.org/10.12688/f1000research.3-62.v2
 [rmarkdown]:   https://cran.r-project.org/package=rmarkdown
 [peter]:       http://pcarbo.github.io
 [matthew]:     http://stephenslab.uchicago.edu
-[uchicago];    https://www.uchicago.edu
+[uchicago]:    https://www.uchicago.edu
