@@ -38,7 +38,7 @@ Workshop aims
 + The examples are intended to run either on the RCC cluster or on
   a laptop with Linux or macOS (not Windows).
 
-+ About 15 GB will be needed to store all t he the data and output files.
++ About 15 GB will be needed to store all the the data and output files.
 
 + *Note: the examples may not produce the exact same result on your
   laptop. Using the RCC cluster is recommended.*
@@ -310,7 +310,7 @@ Start up an interactive R session. On midway2, you can start up R with
 these commands:
 
 ```{bash start-R, eval=FALSE}
-module load R/3.5.1
+module load R/3.6.1
 which R
 R --no-save
 ```
@@ -349,7 +349,6 @@ Make sure you can display graphics in your current R session.
 
 ```{r plot-cars}
 library(ggplot2)
-library(cowplot)
 data(cars)
 quickplot(cars$dist,cars$speed)
 ```
@@ -510,6 +509,7 @@ Plot the distribution of tibia length:
 ```{r plot-tibia-length-dist}
 library(ggplot2)
 library(cowplot)
+theme_set(theme_cowplot())
 p1 <- ggplot(pheno,aes(Tibia.Length)) +
   geom_histogram(fill = "darkblue",
                  na.rm = TRUE)
@@ -759,6 +759,7 @@ null distribution:
 ```{r plot-inflation-basic}
 library(ggplot2)
 library(cowplot)
+theme_set(theme_cowplot())
 source("functions.R")
 p1 <- plot.inflation(gwscan1$p_lrt)
 print(p1)
@@ -853,6 +854,7 @@ showing the results of the association analysis.
 ```{r plot-gwscan}
 library(ggplot2)
 library(cowplot)
+theme_set(theme_cowplot())
 source("functions.R")
 p1 <- plot.gwscan(gwscan)
 print(p1)
