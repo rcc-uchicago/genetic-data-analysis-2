@@ -579,7 +579,8 @@ Plot the distribution of the residuals:
 
 ```{r plot-residuals}
 p4 <- ggplot(data.frame(resid = r),aes(resid)) +
-      geom_histogram(color = "darkblue")
+      geom_histogram(fill = "darkblue")
+print(p4)
 ```
 
 > Instructor notes: How could you assess a fit to normal distribution
@@ -609,8 +610,8 @@ number:
 
 ```{r write-covariate-data}
 sex <- as.numeric(pheno$Sex) - 1
-write.table(data.frame(1,sex,pheno$Weight.Diss),
-            "covar.txt",sep = " ",
+dat <- data.frame(1,sex,pheno$Weight.Diss)
+write.table(dat,"covar.txt",sep = " ",
             row.names = FALSE,
             col.names = FALSE)
 ```
@@ -722,8 +723,9 @@ Next, compute LMM-based association statistics for each SNP:
 LMM-based association analysis in GEMMA
 =======================================
 
-Since this may take an hour or more to complete, I have provided
-files containing the outputs of these two GEMMA commands:
+Since the LMM-based association analysis may take a while to complete
+(perhaps an hour or more), I have provided files containing the
+outputs of these two GEMMA commands:
 
 + **tibia.cXX.txt.gz:** The 1,934 x 1,934 kinship matrix.
 
