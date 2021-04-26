@@ -267,10 +267,10 @@ need to download these data separately.
 + After following these steps, you should have a total of 19 files
   with extension ".RData" in the "genetic-data-analysis-2" folder.
 
-On midway2, do this instead---it will be much faster:
+Alternatively, download the prepared data (faster):
 
 ```{bash download-genotypes-midway2, eval=FALSE}
-cp ~pcarbo/share/cfwgeno.tar.gz
+wget users.rcc.uchicago.edu/~pcarbo/cfwgeno.tar.gz
 tar zxvf cfwgeno.tar.gz
 ```
 
