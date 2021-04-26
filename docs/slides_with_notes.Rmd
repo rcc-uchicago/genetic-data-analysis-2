@@ -2,10 +2,9 @@
 title: "Analysis of Genetic Data 2: Mapping Genome-Wide Associations"
 author: Peter Carbonetto
 output:
-  pdf_document:
-    fig_crop: false
   beamer_presentation:
     template: docs/beamer.tex
+    fig_crop: false
     keep_tex: false
     fig_caption: false
     pandoc_args: "--highlight-style=pygments"
