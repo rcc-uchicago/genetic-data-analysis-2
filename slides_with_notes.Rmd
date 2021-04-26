@@ -2,6 +2,8 @@
 title: "Analysis of Genetic Data 2: Mapping Genome-Wide Associations"
 author: Peter Carbonetto
 output:
+  pdf_document:
+    fig_crop: false
   beamer_presentation:
     template: docs/beamer.tex
     keep_tex: false
@@ -11,8 +13,8 @@ output:
 
 ```{r knitr-options, echo=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
-                      results = "hide",fig.show = "hide",message = FALSE,
-		              warning = FALSE)
+                      results = "hide",fig.show = "hide",fig.keep = "none",
+					  message = FALSE,warning = FALSE)
 ```
 
 Workshop aims
@@ -355,7 +357,7 @@ Make sure you can display graphics in your current R session.
 ```{r plot-cars}
 library(ggplot2)
 data(cars)
-quickplot(cars$dist,cars$speed)
+qplot(cars$dist,cars$speed)
 ```
 
 You should see a scatterplot. If not, your connection is not set up to
