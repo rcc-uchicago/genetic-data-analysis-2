@@ -434,6 +434,9 @@ Rscript format.genotypes.for.gemma.R
 
 This will take a few minutes to run.
 
++ Note that you can skip this step if you downloaded the
+  `cfwgeno.tar.gz` file.
+
 > Instructor notes: What do the numeric values in file
 > "chr01.geno.txt" represent?
 
@@ -452,6 +455,9 @@ We do the same for the SNP annotations:
 ```{bash merge-snp-data, eval=FALSE}
 cat chr*.map.txt > map.txt
 ```
+
++ Again, you can skip this step if you downloaded the
+  `cfwgeno.tar.gz` file.
 
 > Instructor notes: A natural question to ask is why didn't we combine
 > the genotypes inside the R script.
