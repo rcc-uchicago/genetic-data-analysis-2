@@ -136,7 +136,7 @@ Preliminaries
 
 + Download the workshop packet to your computer.
 
-+ If necessary, rename the folder to "genetic-data-analysis-2".
++ If necessary, unzip the ZIP file.
 
 What's included in the workshop packet
 ======================================
@@ -251,6 +251,17 @@ git clone https://github.com/rcc-uchicago/
 cd genetic-data-analysis-2
 ```
 
+Alternatively, it may be simpler to download and unzip the file
+containing the contents of the git repository:
+
+```{bash download-packet-easier, eval=FALSE}
+cd $HOME
+wget -O repo.zip https://tinyurl.com/2p9caa2m
+unzip repo.zip
+mv genetic-data-analysis-2-master \
+  genetic-data-analysis-2
+```
+
 Download genotype data
 ======================
 
@@ -304,8 +315,8 @@ and 10 GB of memory:
 ```{bash connect-midway2, eval=FALSE}
 screen -S workshop
 sinteractive --partition=broadwl \
-  --reservation=workshop --cpus-per-task=4 \
-  --mem=10G --time=3:00:00
+  --reservation=gda2_workshop --cpus-per-task=4 \
+  --mem=10G --time=3:00:00 --account=pi-bigcheese
 echo $HOSTNAME
 ```
 
@@ -316,7 +327,7 @@ Start up an interactive R session. On midway2, you can start up R with
 these commands:
 
 ```{bash start-R, eval=FALSE}
-module load R/3.6.1
+module load R/4.2.0
 which R
 R --no-save
 ```
@@ -364,6 +375,10 @@ display graphics. On midway2, an alternative is to save the plot to a
 file, and download the file to your computer using sftp or SAMBA. See:
 
 + rcc.uchicago.edu/docs/data-transfer
+
+Another alternative is to run R or RStudio on your computer, and set
+your working directory to the genetic-data-analysis-2 directory
+mounted via SAMBA.
 
 Quit R
 ======
