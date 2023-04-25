@@ -627,8 +627,8 @@ Save covariate data for GEMMA
 =============================
 
 Next, write the covariates (body weight and sex) to new file,
-"covar.txt", in the format used by GEMMA. Sex needs to be encoded as a
-number:
+"covar.txt", in the format used by GEMMA. *Sex needs to be encoded as
+a number:*
 
 ```{r write-covariate-data}
 sex <- as.numeric(pheno$Sex) - 1
@@ -652,7 +652,7 @@ Most analyses will involve:
 
 + Reformatting the data.
 
-In this tutorial, we performed these steps in R.
+*Here we performed these steps in R.*
 
 Preparing the genotype data: take-home points
 =============================================
@@ -708,6 +708,12 @@ to run our first association analysis.
 ```
 
 This should take no more than a few minutes to complete.
+
+To view the results of the association alaysis, run:
+
+```{bash gemma-lm-view, eval=FALSE}
+column -t -o ' ' tibia.assoc.txt | less -S
+```
 
 > Instructor notes: The `-notsnp` option is included here to prevent
 > any automatic processing of the genotype data.
